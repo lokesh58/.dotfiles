@@ -1,0 +1,9 @@
+[core]
+  editor = nvim
+
+[init]
+  defaultBranch = main
+
+[include]
+  # Include user details from local file
+  path = ~/.dotfiles/git/gitconfig.local
