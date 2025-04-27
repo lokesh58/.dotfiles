@@ -4,7 +4,12 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
+    dashboard = { enabled = true },
     input = { enabled = true },
+    notifier = {
+      enabled = true,
+      timeout = 3000,
+    },
     picker = { enabled = true },
   },
 }
