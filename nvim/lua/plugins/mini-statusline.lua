@@ -1,9 +1,9 @@
 return {
     'echasnovski/mini.statusline',
-    config = function()
-        require('mini.statusline').setup({
-            use_icons = vim.g.have_nerd_font
-        })
+    dependencies = {"nvim-tree/nvim-web-devicons"},
+    opts = {},
+    config = function(_, opts)
+        require('mini.statusline').setup(opts)
         vim.opt.showmode = false -- Don't show the mode, since it's already in the status line
     end
 }

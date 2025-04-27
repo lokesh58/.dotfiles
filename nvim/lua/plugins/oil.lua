@@ -1,9 +1,20 @@
 return {
     'stevearc/oil.nvim',
-    dependencies = { { "echasnovski/mini.icons"} },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
-    config = function()
-        require("oil").setup({})
-        vim.keymap.set("n", "-", "<cmd>Oil --float<cr>", {desc = "Open parent directory in oil"})
-    end
+    opts = {
+        view_options = {
+            show_hidden = true
+        },
+        keymaps = {
+            ['q'] = {"actions.close", mode='n', desc = "Close Oil"},
+        }
+    },
+    keys = {
+        {
+            "-",
+            "<cmd>Oil<cr>",
+            desc = "Open parent directory in oil"
+        }
+    }
 }
