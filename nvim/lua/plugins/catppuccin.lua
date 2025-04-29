@@ -8,6 +8,7 @@ return {
             flavour = "mocha", -- latte, frappe, macchiato, mocha
             integrations = {
                 snacks = true,
+                mini = true,
             },
         })
         -- load the colorscheme
