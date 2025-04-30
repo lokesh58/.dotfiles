@@ -39,6 +39,7 @@ return {
         picker = { enabled = true },
         quickfile = { enabled = true },
         scroll = { enabled = true },
+        statuscolumn = { enabled = true },
     },
     keys = {
         -- picker
