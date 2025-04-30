@@ -14,7 +14,9 @@ return {
         { "<leader>gB", "<cmd>Gitsigns blame<CR>", desc = "Git blame file" },
         { "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview Git hunk in a popup" },
         { "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", desc = "Reset current Git hunk" },
+        { "[H", "<cmd>Gitsigns nav_hunk last<CR>", desc = "Goto last Git hunk" },
         { "[h", "<cmd>Gitsigns nav_hunk prev<CR>", desc = "Goto previous Git hunk" },
         { "]h", "<cmd>Gitsigns nav_hunk next<CR>", desc = "Goto next Git hunk" },
+        { "]H", "<cmd>Gitsigns nav_hunk first<CR>", desc = "Goto first Git hunk" },
     },
 }
