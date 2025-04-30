@@ -15,6 +15,6 @@ return {
         },
     },
     keys = {
-        { "-", "<cmd>Oil --preview<CR>", desc = "Open parent directory" },
+        { "-", "<cmd>Oil --float<CR>", desc = "Open parent directory" },
     },
 }
