@@ -7,8 +7,13 @@ return {
         require("catppuccin").setup({
             flavour = "mocha", -- latte, frappe, macchiato, mocha
             integrations = {
-                snacks = true,
+                gitsigns = true,
                 mini = true,
+                snacks = {
+                    enabled = true,
+                    indent_scope_color = "surface2",
+                },
+                treesitter = true,
             },
         })
         -- load the colorscheme

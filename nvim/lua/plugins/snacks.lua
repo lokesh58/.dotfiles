@@ -58,11 +58,6 @@ return {
         { "<leader>fa", function() Snacks.picker() end, desc = "All Picker" },
 
         -- git
-        { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
-        { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
-        { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-        { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
-        { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
         { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
 
         -- misc
