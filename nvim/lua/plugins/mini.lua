@@ -1,12 +1,12 @@
 return {
     "echasnovski/mini.nvim",
     config = function()
-        require("mini.icons").setup()
-
-        require("mini.ai").setup({ n_lines = 500 })
-
+        -- Text Editing
+        require("mini.ai").setup()
         require("mini.surround").setup()
 
+        -- Appearance
+        require("mini.icons").setup()
         require("mini.statusline").setup()
         vim.opt.showmode = false
     end,
