@@ -17,7 +17,7 @@ return {
                 suffix_next = "n", -- Suffix to search with "next" method
             },
         })
-        vim.keymap.set('n', 'yss', 'ys_', { remap = true })
+        vim.keymap.set("n", "yss", "ys_", { remap = true })
 
         -- Appearance
         require("mini.icons").setup()
