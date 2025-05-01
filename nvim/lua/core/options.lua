@@ -2,7 +2,7 @@
 vim.opt.confirm = true
 vim.opt.fixendofline = true
 vim.opt.timeout = true
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 500
 vim.opt.undofile = false
 vim.opt.updatetime = 250
 
@@ -10,7 +10,7 @@ vim.opt.updatetime = 250
 vim.opt.breakindent = true
 vim.opt.cursorline = true
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.mouse = "a"
 vim.opt.number = true
 vim.opt.relativenumber = true

@@ -7,6 +7,7 @@ return {
         require("catppuccin").setup({
             flavour = "mocha", -- latte, frappe, macchiato, mocha
             integrations = {
+                blink_cmp = true,
                 flash = true,
                 gitsigns = true,
                 mini = true,
