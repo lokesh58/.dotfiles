@@ -57,6 +57,15 @@ return {
         statuscolumn = { enabled = true },
     },
     keys = {
+        -- buffer
+        {
+            "<leader>bd",
+            function()
+                Snacks.bufdelete()
+            end,
+            desc = "Close current buffer",
+        },
+
         -- picker
         {
             "<leader>ff",
