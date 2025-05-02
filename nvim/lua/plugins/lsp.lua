@@ -138,14 +138,14 @@ return {
             severity_sort = true,
             float = { border = "rounded", source = "if_many" },
             underline = { severity = vim.diagnostic.severity.ERROR },
-            signs = vim.g.have_nerd_font and {
+            signs = {
                 text = {
                     [vim.diagnostic.severity.ERROR] = "󰅚 ",
                     [vim.diagnostic.severity.WARN] = "󰀪 ",
                     [vim.diagnostic.severity.INFO] = "󰋽 ",
                     [vim.diagnostic.severity.HINT] = "󰌶 ",
                 },
-            } or {},
+            },
             virtual_text = {
                 source = "if_many",
                 spacing = 2,
@@ -222,6 +222,8 @@ return {
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             "stylua", -- Used to format Lua code
+            "markdownlint-cli2",
+            "cspell",
         })
         require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
