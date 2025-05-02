@@ -61,14 +61,14 @@ return {
         {
             "<leader>ff",
             function()
-                Snacks.picker.files()
+                Snacks.picker.files({ hidden = true })
             end,
             desc = "Find Files",
         },
         {
             "<leader>fo",
             function()
-                Snacks.picker.recent()
+                Snacks.picker.recent({ hidden = true })
             end,
             desc = "Find Recent (Old) Files",
         },
@@ -89,21 +89,21 @@ return {
         {
             "<leader>fg",
             function()
-                Snacks.picker.grep()
+                Snacks.picker.grep({ hidden = true })
             end,
             desc = "Grep",
         },
         {
             "<leader>fw",
             function()
-                Snacks.picker.grep_word()
+                Snacks.picker.grep_word({ hidden = true })
             end,
             desc = "Grep word",
         },
         {
             "<leader>fv",
             function()
-                Snacks.picker.grep_word()
+                Snacks.picker.grep_word({ hidden = true })
             end,
             desc = "Grep visual selection",
             mode = "x",
@@ -111,14 +111,14 @@ return {
         {
             "<leader>fb",
             function()
-                Snacks.picker.lines()
+                Snacks.picker.lines({ hidden = true })
             end,
             desc = "Grep current Buffer",
         },
         {
             "<leader>fB",
             function()
-                Snacks.picker.grep_buffers()
+                Snacks.picker.grep_buffers({ hidden = true })
             end,
             desc = "Grep all open Buffers",
         },
