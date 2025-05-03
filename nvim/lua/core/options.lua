@@ -9,6 +9,7 @@ vim.opt.updatetime = 250
 -- Setup basic UI
 vim.opt.breakindent = true
 vim.opt.cursorline = true
+vim.opt.inccommand = "split"
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.mouse = "a"
