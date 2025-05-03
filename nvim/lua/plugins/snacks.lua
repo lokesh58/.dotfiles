@@ -118,16 +118,16 @@ return {
             mode = "x",
         },
         {
-            "<leader>fb",
+            "<leader>f/",
             function()
-                Snacks.picker.lines({ hidden = true })
+                Snacks.picker.lines()
             end,
             desc = "Grep current Buffer",
         },
         {
-            "<leader>fB",
+            "<leader>fb",
             function()
-                Snacks.picker.grep_buffers({ hidden = true })
+                Snacks.picker.grep_buffers()
             end,
             desc = "Grep all open Buffers",
         },
@@ -180,7 +180,8 @@ return {
         {
             "<leader>e",
             function()
-                Snacks.explorer()
+                ---@diagnostic disable-next-line: missing-fields
+                Snacks.explorer({ hidden = true })
             end,
             desc = "File Explorer",
         },
