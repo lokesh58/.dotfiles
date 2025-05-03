@@ -116,6 +116,9 @@ return {
                     },
                 },
             },
+            marksman = {},
+            ts_ls = {},
+            clangd = {},
         }
 
         -- Ensure the servers and tools above are installed
@@ -136,6 +139,8 @@ return {
             "stylua", -- Used to format Lua code
             "markdownlint-cli2",
             "cspell",
+            "eslint_d",
+            "prettierd",
         })
         require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
