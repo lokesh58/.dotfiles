@@ -19,13 +19,5 @@ return {
                 -- ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
             },
         },
-        views = {
-            cmdline_popup = {
-                position = {
-                    row = "30%",
-                    col = "50%",
-                },
-            },
-        },
     },
 }
