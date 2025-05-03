@@ -9,3 +9,6 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- editor related
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Close neovim" })
+
+-- diagnostics related
+vim.keymap.set("n", "grl", vim.diagnostic.open_float, { desc = "Open line diagnostics" })

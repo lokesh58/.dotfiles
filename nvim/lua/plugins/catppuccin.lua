@@ -11,6 +11,16 @@ return {
                 flash = true,
                 gitsigns = true,
                 mini = true,
+                native_lsp = {
+                    enabled = true,
+                    underlines = {
+                        errors = { "undercurl" },
+                        hints = { "undercurl" },
+                        warnings = { "undercurl" },
+                        information = { "undercurl" },
+                    },
+                },
+                noice = true,
                 snacks = {
                     enabled = true,
                     indent_scope_color = "surface2",
