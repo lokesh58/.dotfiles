@@ -32,13 +32,4 @@ return {
             },
         },
     },
-    {
-        "echasnovski/mini.statusline",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
-        config = function(_, opts)
-            require("mini.statusline").setup(opts)
-            vim.opt.showmode = false
-        end,
-    },
 }
