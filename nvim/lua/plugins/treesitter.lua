@@ -8,6 +8,7 @@ return {
             "c",
             "diff",
             "html",
+            "regex",
             "lua",
             "luadoc",
             "markdown",
