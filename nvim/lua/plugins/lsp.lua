@@ -17,7 +17,9 @@ return {
                     vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
                 end
 
-                map("grn", vim.lsp.buf.rename, "Rename symbol")
+                -- map("grn", vim.lsp.buf.rename, "Rename symbol")
+                -- map("gra", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
+                map("grn", ":IncRename ", "Rename symbol")
                 map("gra", require("fzf-lua").lsp_code_actions, "Goto Code Action", { "n", "x" })
                 map("grr", require("fzf-lua").lsp_references, "Goto References")
                 map("gri", require("fzf-lua").lsp_implementations, "Goto Implementation")
