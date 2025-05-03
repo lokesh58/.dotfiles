@@ -51,7 +51,6 @@ return {
         indent = { enabled = true },
         input = { enabled = true },
         notifier = { enabled = true },
-        picker = { enabled = true },
         quickfile = { enabled = true },
         scroll = { enabled = true },
         statuscolumn = { enabled = true },
@@ -66,107 +65,6 @@ return {
             desc = "Close current buffer",
         },
 
-        -- picker
-        {
-            "<leader>ff",
-            function()
-                Snacks.picker.files({ hidden = true })
-            end,
-            desc = "Find Files",
-        },
-        {
-            "<leader>fo",
-            function()
-                Snacks.picker.recent({ hidden = true })
-            end,
-            desc = "Find Recent (Old) Files",
-        },
-        {
-            "<leader>fc",
-            function()
-                Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
-            end,
-            desc = "Find in Config",
-        },
-        {
-            "<leader>fp",
-            function()
-                Snacks.picker.projects()
-            end,
-            desc = "Find Projects",
-        },
-        {
-            "<leader>fg",
-            function()
-                Snacks.picker.grep({ hidden = true })
-            end,
-            desc = "Grep",
-        },
-        {
-            "<leader>fw",
-            function()
-                Snacks.picker.grep_word({ hidden = true })
-            end,
-            desc = "Grep word",
-        },
-        {
-            "<leader>fv",
-            function()
-                Snacks.picker.grep_word({ hidden = true })
-            end,
-            desc = "Grep visual selection",
-            mode = "x",
-        },
-        {
-            "<leader>f/",
-            function()
-                Snacks.picker.lines()
-            end,
-            desc = "Grep current Buffer",
-        },
-        {
-            "<leader>fb",
-            function()
-                Snacks.picker.grep_buffers()
-            end,
-            desc = "Grep all open Buffers",
-        },
-        {
-            "<leader><leader>",
-            function()
-                Snacks.picker.buffers()
-            end,
-            desc = "Search open Buffers",
-        },
-        {
-            "<leader>fh",
-            function()
-                Snacks.picker.help()
-            end,
-            desc = "Search Help",
-        },
-        {
-            "<leader>fm",
-            function()
-                Snacks.picker.marks()
-            end,
-            desc = "Marks",
-        },
-        {
-            "<leader>fr",
-            function()
-                Snacks.picker.resume()
-            end,
-            desc = "Resume last search",
-        },
-        {
-            "<leader>fa",
-            function()
-                Snacks.picker()
-            end,
-            desc = "All Picker",
-        },
-
         -- git
         {
             "<leader>gg",
@@ -177,14 +75,6 @@ return {
         },
 
         -- misc
-        {
-            "<leader>e",
-            function()
-                ---@diagnostic disable-next-line: missing-fields
-                Snacks.explorer({ hidden = true })
-            end,
-            desc = "File Explorer",
-        },
         {
             "<leader>n",
             function()

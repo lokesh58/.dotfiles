@@ -6,8 +6,6 @@ return {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         { "j-hui/fidget.nvim", opts = {} }, -- Useful status updates for LSP
         "saghen/blink.cmp",
-        "folke/snacks.nvim",
-        { "aznhe21/actions-preview.nvim", opts = { backend = { "snacks" } } },
     },
     config = function()
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -20,14 +18,14 @@ return {
                 end
 
                 map("grn", vim.lsp.buf.rename, "Rename symbol")
-                map("gra", require("actions-preview").code_actions, "Goto Code Action", { "n", "x" })
-                map("grr", Snacks.picker.lsp_references, "Goto References")
-                map("gri", Snacks.picker.lsp_implementations, "Goto Implementation")
-                map("grd", Snacks.picker.lsp_definitions, "Goto Definition")
-                map("grD", Snacks.picker.lsp_declarations, "Goto Declaration")
-                map("grt", Snacks.picker.lsp_type_definitions, "Goto Type Definition")
-                map("gO", Snacks.picker.lsp_symbols, "Open Document Symbols")
-                map("gW", Snacks.picker.lsp_workspace_symbols, "Open Workspace Symbols")
+                map("gra", require("fzf-lua").lsp_code_actions, "Goto Code Action", { "n", "x" })
+                map("grr", require("fzf-lua").lsp_references, "Goto References")
+                map("gri", require("fzf-lua").lsp_implementations, "Goto Implementation")
+                map("grd", require("fzf-lua").lsp_definitions, "Goto Definition")
+                map("grD", require("fzf-lua").lsp_declarations, "Goto Declaration")
+                map("grt", require("fzf-lua").lsp_typedefs, "Goto Type Definition")
+                map("gO", require("fzf-lua").lsp_document_symbols, "Open Document Symbols")
+                map("gW", require("fzf-lua").lsp_live_workspace_symbols, "Open Workspace Symbols")
 
                 -- The following two autocommands are used to highlight references of the
                 -- word under your cursor when your cursor rests there for a little while.

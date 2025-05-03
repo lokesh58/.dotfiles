@@ -1,9 +1,8 @@
 return {
-    "echasnovski/mini.nvim",
-    config = function()
-        -- Text Editing
-        require("mini.ai").setup({ n_lines = 500 })
-        require("mini.pairs").setup({
+    { "echasnovski/mini.ai", opts = { n_lines = 500 } },
+    {
+        "echasnovski/mini.pairs",
+        opts = {
             modes = { insert = true, command = false, terminal = false },
             -- skip autopair when next character is one of these
             skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
@@ -14,8 +13,11 @@ return {
             skip_unbalanced = true,
             -- better deal with markdown code blocks
             markdown = true,
-        })
-        require("mini.surround").setup({
+        },
+    },
+    {
+        "echasnovski/mini.surround",
+        opts = {
             mappings = {
                 add = "ys", -- Add surrounding in Normal and Visual modes
                 delete = "ds", -- Delete surrounding
@@ -28,12 +30,15 @@ return {
                 suffix_last = "l", -- Suffix to search with "prev" method
                 suffix_next = "n", -- Suffix to search with "next" method
             },
-        })
-        vim.keymap.set("n", "yss", "ys_", { remap = true })
-
-        -- Appearance
-        require("mini.icons").setup()
-        require("mini.statusline").setup()
-        vim.opt.showmode = false
-    end,
+        },
+    },
+    {
+        "echasnovski/mini.statusline",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
+        config = function(_, opts)
+            require("mini.statusline").setup(opts)
+            vim.opt.showmode = false
+        end,
+    },
 }
