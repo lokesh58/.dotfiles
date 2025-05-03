@@ -7,6 +7,7 @@ return {
         { "j-hui/fidget.nvim", opts = {} }, -- Useful status updates for LSP
         "saghen/blink.cmp",
         "folke/snacks.nvim",
+        { "aznhe21/actions-preview.nvim", opts = { backend = { "snacks" } } },
     },
     config = function()
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -19,7 +20,7 @@ return {
                 end
 
                 map("grn", vim.lsp.buf.rename, "Rename symbol")
-                map("gra", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
+                map("gra", require("actions-preview").code_actions, "Goto Code Action", { "n", "x" })
                 map("grr", Snacks.picker.lsp_references, "Goto References")
                 map("gri", Snacks.picker.lsp_implementations, "Goto Implementation")
                 map("grd", Snacks.picker.lsp_definitions, "Goto Definition")
