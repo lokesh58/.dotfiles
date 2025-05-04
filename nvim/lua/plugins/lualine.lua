@@ -4,6 +4,7 @@ return {
     opts = {
         theme = "catppuccin",
         sections = {
+            lualine_b = { "branch", "diff", "lsp_status", "diagnostics" },
             lualine_x = {
                 {
                     require("noice").api.status.mode.get,

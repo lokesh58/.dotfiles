@@ -91,7 +91,7 @@ return {
         {
             "<leader>e",
             function()
-                Snacks.explorer()
+                Snacks.explorer({ hidden = true, ignored = true })
             end,
             desc = "Open file explorer",
         },
