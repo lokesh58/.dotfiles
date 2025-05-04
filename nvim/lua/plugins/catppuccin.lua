@@ -40,6 +40,7 @@ return {
                     indent_scope_color = "surface2",
                 },
                 treesitter = true,
+                ufo = true,
             },
         })
         -- load the colorscheme
