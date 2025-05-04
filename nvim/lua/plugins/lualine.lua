@@ -4,22 +4,39 @@ return {
     opts = {
         theme = "catppuccin",
         sections = {
-            lualine_b = { "branch", "diff", "lsp_status", "diagnostics" },
-            lualine_x = {
+            lualine_a = {
                 {
                     require("noice").api.status.mode.get,
                     cond = require("noice").api.status.mode.has,
-                    color = { fg = "#ff9e64" },
                 },
+                "mode",
+            },
+            lualine_b = { "branch", "diff" },
+            lualine_c = {
+                "filename",
                 {
                     require("noice").api.status.search.get,
                     cond = require("noice").api.status.search.has,
                     color = { fg = "#ff9e64" },
                 },
+            },
+            lualine_x = {
+                "diagnostics",
+                "lsp_status",
+                "filetype",
                 "encoding",
                 "fileformat",
-                "filetype",
             },
+            lualine_y = { "progress" },
+            lualine_z = { "location" },
+        },
+        inactive_sections = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = { "filename" },
+            lualine_x = { "location" },
+            lualine_y = {},
+            lualine_z = {},
         },
     },
     config = function(_, opts)
