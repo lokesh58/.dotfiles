@@ -6,6 +6,7 @@ return {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         { "j-hui/fidget.nvim", opts = {} }, -- Useful status updates for LSP
         "saghen/blink.cmp",
+        { "smjonas/inc-rename.nvim", opts = { save_in_cmdline_history = false } },
     },
     config = function()
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -17,7 +18,10 @@ return {
                     vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
                 end
 
-                map("grn", vim.lsp.buf.rename, "Rename symbol")
+                -- map("grn", vim.lsp.buf.rename, "Rename symbol")
+                vim.keymap.set("n", "grn", function()
+                    return ":IncRename " .. vim.fn.expand("<cword>")
+                end, { desc = "Rename symbol", expr = true })
                 map("gra", require("fzf-lua").lsp_code_actions, "Goto Code Action", { "n", "x" })
                 map("grr", require("fzf-lua").lsp_references, "Goto References")
                 map("gri", require("fzf-lua").lsp_implementations, "Goto Implementation")
@@ -89,7 +93,7 @@ return {
         local servers = {
             lua_ls = {},
             marksman = {},
-            ts_ls = {},
+            vtsls = {},
             clangd = {},
         }
 

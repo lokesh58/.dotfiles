@@ -18,6 +18,7 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
 vim.opt.signcolumn = "yes"
 vim.opt.splitbelow = true
+vim.opt.splitkeep = "screen"
 vim.opt.splitright = true
 vim.opt.wrap = true
 
