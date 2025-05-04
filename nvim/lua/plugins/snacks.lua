@@ -63,6 +63,20 @@ return {
             end,
             desc = "Close current buffer",
         },
+        {
+            "<leader>bo",
+            function()
+                Snacks.bufdelete.other()
+            end,
+            desc = "Close all other buffers",
+        },
+        {
+            "<leader>ba",
+            function()
+                Snacks.bufdelete.all()
+            end,
+            desc = "Close all buffers",
+        },
 
         -- git
         {
