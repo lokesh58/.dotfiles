@@ -95,6 +95,7 @@ return {
             marksman = {},
             vtsls = {},
             clangd = {},
+            neocmake = {},
         }
 
         -- Ensure the servers and tools above are installed
