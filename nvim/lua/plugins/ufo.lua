@@ -1,11 +1,7 @@
 return {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
-    opts = {
-        provider_selector = function(bufnr, filetype, buftype)
-            return { "treesitter", "indent" }
-        end,
-    },
+    opts = {},
     config = function(_, opts)
         require("ufo").setup(opts)
         vim.opt.foldcolumn = "1" -- '0' is not bad
