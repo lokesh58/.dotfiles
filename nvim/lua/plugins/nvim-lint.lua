@@ -13,6 +13,7 @@ return {
             group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
             callback = function()
                 require("lint").try_lint()
+                require("lint").try_lint("cspell")
             end,
         })
     end,
