@@ -30,13 +30,6 @@ return {
             end,
             desc = "Find in Config",
         },
-        -- {
-        --     "<leader>fp",
-        --     function()
-        --         FzfLua.projects()
-        --     end,
-        --     desc = "Find Projects",
-        -- },
         {
             "<leader>fg",
             function()
