@@ -2,6 +2,17 @@ return {
     "folke/persistence.nvim",
     event = "BufReadPre",
     opts = {},
+    config = function(_, opts)
+        require("persistence").setup(opts)
+        vim.api.nvim_create_autocmd("User", {
+            desc = "Close open buffers before loading a session",
+            pattern = "PersistenceLoadPre",
+            group = vim.api.nvim_create_augroup("persistence-load-pre", { clear = true }),
+            callback = function()
+                vim.cmd("silent! %bdelete")
+            end,
+        })
+    end,
     keys = {
         {
             "<leader>qs",
@@ -13,7 +24,11 @@ return {
         {
             "<leader>qS",
             function()
-                require("persistence").select()
+                local persistence = require("persistence")
+                if persistence.active() then
+                    persistence.save()
+                end
+                persistence.select()
             end,
             desc = "Select a session to load",
         },
