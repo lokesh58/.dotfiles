@@ -1,7 +1,9 @@
 return {
     "folke/persistence.nvim",
     event = "BufReadPre",
-    opts = {},
+    opts = {
+        branch = false,
+    },
     config = function(_, opts)
         require("persistence").setup(opts)
         vim.api.nvim_create_autocmd("User", {
