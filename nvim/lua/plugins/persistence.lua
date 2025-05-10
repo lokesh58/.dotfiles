@@ -11,7 +11,7 @@ return {
             pattern = "PersistenceLoadPre",
             group = vim.api.nvim_create_augroup("persistence-load-pre", { clear = true }),
             callback = function()
-                vim.cmd("silent! %bdelete")
+                Snacks.bufdelete.all()
             end,
         })
     end,

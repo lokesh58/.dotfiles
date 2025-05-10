@@ -1,7 +1,7 @@
 return {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false,
+    command = "FzfLua",
     opts = {},
     config = function(_, opts)
         local fzf = require("fzf-lua")
@@ -12,49 +12,49 @@ return {
         {
             "<leader>ff",
             function()
-                FzfLua.files()
+                require("fzf-lua").files()
             end,
             desc = "Find Files",
         },
         {
             "<leader>fo",
             function()
-                FzfLua.oldfiles()
+                require("fzf-lua").oldfiles()
             end,
             desc = "Find Recent (Old) Files",
         },
         {
             "<leader>fc",
             function()
-                FzfLua.files({ cwd = vim.fn.stdpath("config") })
+                require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
             end,
             desc = "Find in Config",
         },
         {
             "<leader>fg",
             function()
-                FzfLua.live_grep()
+                require("fzf-lua").live_grep()
             end,
             desc = "Grep",
         },
         {
             "<leader>fw",
             function()
-                FzfLua.grep_cword()
+                require("fzf-lua").grep_cword()
             end,
             desc = "Grep word",
         },
         {
             "<leader>fW",
             function()
-                FzfLua.grep_cWORD()
+                require("fzf-lua").grep_cWORD()
             end,
             desc = "Grep WORD",
         },
         {
             "<leader>fv",
             function()
-                FzfLua.grep_visual()
+                require("fzf-lua").grep_visual()
             end,
             desc = "Grep visual selection",
             mode = "x",
@@ -62,42 +62,42 @@ return {
         {
             "<leader>/",
             function()
-                FzfLua.lgrep_curbuf()
+                require("fzf-lua").lgrep_curbuf()
             end,
             desc = "Grep current Buffer",
         },
         {
             "<leader><leader>",
             function()
-                FzfLua.buffers()
+                require("fzf-lua").buffers()
             end,
             desc = "Search open Buffers",
         },
         {
             "<leader>fh",
             function()
-                FzfLua.helptags()
+                require("fzf-lua").helptags()
             end,
             desc = "Search Help",
         },
         {
             "<leader>fm",
             function()
-                FzfLua.marks()
+                require("fzf-lua").marks()
             end,
             desc = "Marks",
         },
         {
             "<leader>fr",
             function()
-                FzfLua.resume()
+                require("fzf-lua").resume()
             end,
             desc = "Resume last search",
         },
         {
             "<leader>fa",
             function()
-                FzfLua.builtin()
+                require("fzf-lua").builtin()
             end,
             desc = "All Picker",
         },
