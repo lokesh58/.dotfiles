@@ -7,6 +7,7 @@ return {
         { "j-hui/fidget.nvim", opts = {} }, -- Useful status updates for LSP
         "saghen/blink.cmp",
         { "smjonas/inc-rename.nvim", opts = { save_in_cmdline_history = false } },
+        { "aznhe21/actions-preview.nvim", opts = {} },
     },
     config = function()
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -22,14 +23,15 @@ return {
                 vim.keymap.set("n", "grn", function()
                     return ":IncRename " .. vim.fn.expand("<cword>")
                 end, { desc = "Rename symbol", expr = true })
-                map("gra", require("fzf-lua").lsp_code_actions, "Goto Code Action", { "n", "x" })
-                map("grr", require("fzf-lua").lsp_references, "Goto References")
-                map("gri", require("fzf-lua").lsp_implementations, "Goto Implementation")
-                map("grd", require("fzf-lua").lsp_definitions, "Goto Definition")
-                map("grD", require("fzf-lua").lsp_declarations, "Goto Declaration")
-                map("grt", require("fzf-lua").lsp_typedefs, "Goto Type Definition")
-                map("gO", require("fzf-lua").lsp_document_symbols, "Open Document Symbols")
-                map("gW", require("fzf-lua").lsp_live_workspace_symbols, "Open Workspace Symbols")
+                -- map("gra", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
+                map("gra", require("actions-preview").code_actions, "Goto Code Action", { "n", "x" })
+                map("grr", require("snacks").picker.lsp_references, "Goto References")
+                map("gri", require("snacks").picker.lsp_implementations, "Goto Implementation")
+                map("grd", require("snacks").picker.lsp_definitions, "Goto Definition")
+                map("grD", require("snacks").picker.lsp_declarations, "Goto Declaration")
+                map("grt", require("snacks").picker.lsp_type_definitions, "Goto Type Definition")
+                map("gO", require("snacks").picker.lsp_symbols, "Open Document Symbols")
+                map("gW", require("snacks").picker.lsp_workspace_symbols, "Open Workspace Symbols")
 
                 -- The following two autocommands are used to highlight references of the
                 -- word under your cursor when your cursor rests there for a little while.
