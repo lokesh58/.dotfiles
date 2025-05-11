@@ -191,10 +191,11 @@ return {
             desc = "Notification History",
         },
         {
-            "<leader>tt",
+            "<C-`>",
             function()
                 Snacks.terminal()
             end,
+            mode = { "n", "t" },
             desc = "Toggle Terminal",
         },
     },
