@@ -4,6 +4,7 @@ return {
     version = "1.*",
     dependencies = {
         "L3MON4D3/LuaSnip",
+        "Kaiser-Yang/blink-cmp-avante",
     },
     ---@module "blink.cmp"
     ---@type blink.cmp.Config
@@ -22,8 +23,15 @@ return {
             },
         },
         sources = {
-            default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+            default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
             providers = {
+                avante = {
+                    module = "blink-cmp-avante",
+                    name = "Avante",
+                    opts = {
+                        -- options for blink-cmp-avante
+                    },
+                },
                 lazydev = {
                     name = "LazyDev",
                     module = "lazydev.integrations.blink",
