@@ -19,11 +19,9 @@ return {
                     vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
                 end
 
-                -- map("grn", vim.lsp.buf.rename, "Rename symbol")
                 vim.keymap.set("n", "grn", function()
                     return ":IncRename " .. vim.fn.expand("<cword>")
                 end, { desc = "Rename symbol", expr = true })
-                -- map("gra", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
                 map("gra", require("actions-preview").code_actions, "Goto Code Action", { "n", "x" })
                 map("grr", require("snacks").picker.lsp_references, "Goto References")
                 map("gri", require("snacks").picker.lsp_implementations, "Goto Implementation")
