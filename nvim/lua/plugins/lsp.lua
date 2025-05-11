@@ -97,6 +97,9 @@ return {
             clangd = {},
             neocmake = {},
             pyright = {},
+            ["rust-analyzer"] = {},
+            ["docker-compose-language-service"] = {},
+            ["dockerfile-language-server"] = {},
         }
 
         -- Ensure the servers and tools above are installed
