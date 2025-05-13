@@ -1,5 +1,6 @@
 return {
     "yetone/avante.nvim",
+    cond = true,
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     build = (function()
@@ -14,9 +15,8 @@ return {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
         --- The below dependencies are optional,
-        "saghen/blink.cmp", -- autocompletion for avante commands and mentions
         "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-        { "zbirenbaum/copilot.lua", opts = {} }, -- for providers='copilot'
+        { "zbirenbaum/copilot.lua" }, -- for providers='copilot'
         {
             -- support for image pasting
             "HakonHarnes/img-clip.nvim",

@@ -1,5 +1,6 @@
 return {
     "mfussenegger/nvim-lint",
+    cond = false,
     config = function()
         require("lint").linters_by_ft = {
             markdown = { "markdownlint-cli2" },

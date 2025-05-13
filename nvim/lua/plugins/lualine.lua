@@ -1,8 +1,10 @@
 return {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "AndreM222/copilot-lualine" },
     opts = {
-        theme = "catppuccin",
+        options = {
+            theme = "catppuccin",
+        },
         sections = {
             lualine_a = {
                 {
@@ -23,6 +25,7 @@ return {
             lualine_x = {
                 "diagnostics",
                 "lsp_status",
+                "copilot",
                 "filetype",
                 "encoding",
                 "fileformat",

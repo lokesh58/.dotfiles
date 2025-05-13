@@ -1,3 +1,4 @@
+local markdown_file_types = { "markdown", "codecompanion", "Avante" }
 return {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
@@ -6,7 +7,7 @@ return {
     ---@type render.md.UserConfig
     opts = {
         completions = { blink = { enabled = true } },
-        file_types = { "markdown", "Avante" },
+        file_types = markdown_file_types,
     },
-    ft = { "markdown", "Avante" },
+    ft = markdown_file_types,
 }

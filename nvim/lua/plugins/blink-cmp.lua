@@ -4,6 +4,7 @@ return {
     version = "1.*",
     dependencies = {
         "L3MON4D3/LuaSnip",
+        "giuxtaposition/blink-cmp-copilot",
         "Kaiser-Yang/blink-cmp-avante",
     },
     ---@module "blink.cmp"
@@ -23,8 +24,21 @@ return {
             },
         },
         sources = {
-            default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
+            default = {
+                "lsp",
+                "path",
+                "snippets",
+                "buffer",
+                "lazydev",
+                "avante",
+                "copilot",
+            },
             providers = {
+                lazydev = {
+                    name = "LazyDev",
+                    module = "lazydev.integrations.blink",
+                    score_offset = 100,
+                },
                 avante = {
                     module = "blink-cmp-avante",
                     name = "Avante",
@@ -32,10 +46,11 @@ return {
                         -- options for blink-cmp-avante
                     },
                 },
-                lazydev = {
-                    name = "LazyDev",
-                    module = "lazydev.integrations.blink",
+                copilot = {
+                    name = "copilot",
+                    module = "blink-cmp-copilot",
                     score_offset = 100,
+                    async = true,
                 },
             },
         },
