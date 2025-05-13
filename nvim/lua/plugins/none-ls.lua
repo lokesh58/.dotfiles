@@ -36,6 +36,9 @@ return {
                 -- null_ls.builtins.code_actions.markdownlint_cli2.with({
                 --     filetypes = { "markdown" },
                 -- }),
+                null_ls.builtins.formatting.prettierd.with({
+                    filetypes = { "markdown" },
+                }),
             },
         })
 
