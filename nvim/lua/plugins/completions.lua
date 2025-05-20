@@ -20,6 +20,7 @@ return {
         dependencies = {
             "L3MON4D3/LuaSnip",
             "giuxtaposition/blink-cmp-copilot",
+            "Kaiser-Yang/blink-cmp-avante",
         },
         ---@module "blink.cmp"
         ---@type blink.cmp.Config
@@ -45,6 +46,7 @@ return {
                     "buffer",
                     "lazydev",
                     "copilot",
+                    "avante",
                 },
                 providers = {
                     lazydev = {
