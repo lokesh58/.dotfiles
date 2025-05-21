@@ -10,7 +10,6 @@ return {
     },
     {
         "yetone/avante.nvim",
-        cond = true,
         event = "VeryLazy",
         version = false, -- Never set this value to "*"! Never!
         build = (function()
@@ -51,7 +50,6 @@ return {
     },
     -- {
     --     "olimorris/codecompanion.nvim",
-    --     cond = true,
     --     dependencies = {
     --         "nvim-lua/plenary.nvim",
     --         "nvim-treesitter/nvim-treesitter",
