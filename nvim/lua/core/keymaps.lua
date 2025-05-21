@@ -7,11 +7,11 @@ vim.g.maplocalleader = "\\"
 -- editor related
 --------------------------------------------------------------------------------------------
 
-vim.keymap.set("x", "<S-j>", "<cmd>m '>+1<CR>gv=gv", { desc = "Move lines down in visual selection" })
-vim.keymap.set("x", "<S-k>", "<cmd>m '<-2<CR>gv=gv", { desc = "Move lines up in visual selection" })
+vim.keymap.set("x", "J", ":move '>+1<CR>gv=gv", { desc = "Move lines down in visual selection" })
+vim.keymap.set("x", "K", ":move '<-2<CR>gv=gv", { desc = "Move lines up in visual selection" })
 
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down in buffer with cursor centered" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up in buffer with cursor centered" })
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up in buffer with cursor centered" })
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down in buffer with cursor centered" })
 
 -- keep visual selection while changing indentation of selected text
 vim.keymap.set("x", "<", "<gv", opts)
