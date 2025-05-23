@@ -16,7 +16,7 @@ end
 vim.opt.rtp:prepend(lazy_path)
 
 require("lazy").setup({
-    default_options = {
+    defaults = {
         cond = not vim.g.vscode,
     },
     spec = {
