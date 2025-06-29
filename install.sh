@@ -47,6 +47,7 @@ setup_gitconfig_local() {
 # Function to set up ssh
 setup_ssh() {
     echo "Setting up SSH..."
+    sudo pacman -S --noconfirm --needed openssh
     ln -sf "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
     setup_ssh_config_local
 }
