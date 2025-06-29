@@ -73,6 +73,16 @@ setup_wezterm() {
     ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config"
 }
 
+# Function to set up NeoVim
+setup_neovim() {
+    echo "Setting up NeoVim..."
+    sudo pacman -S --noconfirm --needed neovim lazygit make unzip fd ripgrep
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
@@ -82,6 +92,7 @@ main() {
     setup_git
     setup_ssh
     setup_wezterm
+    setup_neovim
     echo "Setup complete!"
 }
 
