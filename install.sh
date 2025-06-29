@@ -63,6 +63,16 @@ setup_ssh_config_local() {
     fi
 }
 
+# Function to set up NeoVim
+setup_neovim() {
+    echo "Setting up NeoVim..."
+    sudo pacman -S --noconfirm --needed neovim lazygit make unzip fd ripgrep
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
@@ -71,6 +81,7 @@ main() {
     setup_bash
     setup_git
     setup_ssh
+    setup_neovim
     echo "Setup complete!"
 }
 
