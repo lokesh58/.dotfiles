@@ -7,7 +7,7 @@ DOTFILES_DIR="$HOME/.dotfiles"
 # Function to install base packages
 install_base_packages() {
     echo "Installing base packages..."
-    sudo pacman -Syu --needed git
+    sudo pacman -S --noconfirm --needed git
 }
 
 # Function to clone the dotfiles repository
@@ -18,6 +18,12 @@ clone_dotfiles_repo() {
     else
         echo "Dotfiles repository already exists at $DOTFILES_DIR."
     fi
+}
+
+# Function to set up bash
+setup_bash() {
+    echo "Setting up Bash..."
+    ln -sf "$DOTFILES_DIR/bash/bashrc" "$HOME/.bashrc"
 }
 
 # Function to set up git
@@ -31,24 +37,28 @@ setup_gitconfig_local() {
     local gitconfig_local="$DOTFILES_DIR/git/gitconfig.local"
     if [ ! -f "$gitconfig_local" ]; then
         echo "gitconfig.local not found."
-        read -p "Do you want to set it up interactively? (y/n): " choice
-        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
-            echo "Setting up gitconfig.local interactively..."
-            read -p "Enter your Git username: " git_user_name
-            read -p "Enter your Git display name: " git_name
-            read -p "Enter your Git email: " git_email
-            cat > "$gitconfig_local" <<EOF
-[user]
-  email = $git_email
-  name = $git_name
-  user = $git_user_name
-EOF
-        else
-            echo "Using example gitconfig.local file..."
-            cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
-        fi
+	echo "Using example gitconfig.local file..."
+	cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
     else
         echo "gitconfig.local already exists."
+    fi
+}
+
+# Function to set up ssh
+setup_ssh() {
+    echo "Setting up SSH..."
+    ln -sf "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
+    setup_ssh_config_local
+}
+
+setup_ssh_config_local() {
+    local ssh_config_local="$DOTFILES_DIR/ssh/config.local"
+    if [ ! -f "$ssh_config_local" ]; then
+        echo "ssh/config.local not found."
+        echo "Using example ssh/config.local file..."
+        cp "$DOTFILES_DIR/ssh/config.local.example" "$ssh_config_local"
+    else
+        echo "ssh/config.local already exists."
     fi
 }
 
@@ -57,7 +67,9 @@ main() {
     echo "Starting setup..."
     install_base_packages
     clone_dotfiles_repo
+    setup_bash
     setup_git
+    setup_ssh
     echo "Setup complete!"
 }
 

@@ -1,0 +1,3 @@
+Host foo.bar
+    HostName foo.bar
+    IdentityFile ~/.ssh/foo_bar

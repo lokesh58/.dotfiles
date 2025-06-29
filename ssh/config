@@ -1,0 +1,4 @@
+Include ~/.dotfiles/ssh/config.local
+
+Host *
+    AddKeysToAgent yes
