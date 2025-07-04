@@ -27,7 +27,7 @@ vim.keymap.set("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Close neovim" })
 
 -- delete / change / paste without affecting clipboard
 vim.keymap.set("x", "<leader>p", [["_dp]])
-vim.keymap.set({ "n", "x" }, "<leader>s", [["_s]])
+-- vim.keymap.set({ "n", "x" }, "<leader>s", [["_s]])
 vim.keymap.set({ "n", "x" }, "<leader>c", [["_c]])
 vim.keymap.set({ "n", "x" }, "<leader>d", [["_d]])
 

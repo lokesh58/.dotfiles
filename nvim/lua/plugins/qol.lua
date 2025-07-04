@@ -2,9 +2,9 @@ return {
     {
         "folke/snacks.nvim",
         opts = {
-            -- bigfile = {
-            --     enabled = true,
-            -- },
+            bigfile = {
+                enabled = true,
+            },
             notifier = {
                 enabled = true,
             },

@@ -76,7 +76,7 @@ setup_wezterm() {
 # Function to set up NeoVim
 setup_neovim() {
     echo "Setting up NeoVim..."
-    sudo pacman -S --noconfirm --needed neovim lazygit make unzip fd ripgrep
+    sudo pacman -S --noconfirm --needed neovim lazygit make unzip fd ripgrep ast-grep
     if [ ! -d "$HOME/.config" ]; then
         mkdir "$HOME/.config"
     fi
