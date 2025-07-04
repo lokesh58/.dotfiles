@@ -231,20 +231,17 @@ return {
                     }),
                     require("cspell").code_actions,
 
+                    -- Markdown
+                    require("null-ls").builtins.diagnostics.markdownlint_cli2.with({
+                        filetypes = { "markdown" },
+                    }),
+
                     -- JS/TS
                     require("none-ls.diagnostics.eslint_d").with({
                         filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
                     }),
                     require("none-ls.code_actions.eslint_d").with({
                         filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-                    }),
-                    require("null-ls").builtins.formatting.prettierd.with({
-                        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-                    }),
-
-                    -- Markdown
-                    require("null-ls").builtins.diagnostics.markdownlint_cli2.with({
-                        filetypes = { "markdown" },
                     }),
                 },
             }
@@ -254,13 +251,21 @@ return {
         "stevearc/conform.nvim",
         event = "BufWritePre",
         opts = {
+            formatters = {
+                clang_format = {
+                    args = { "--fallback-style=Google" },
+                },
+            },
             formatters_by_ft = {
                 lua = { "stylua" },
+                markdown = { "prettierd" },
                 javascript = { "prettierd" },
                 javascriptreact = { "prettierd" },
                 typescript = { "prettierd" },
                 typescriptreact = { "prettierd" },
-                markdown = { "prettierd" },
+                c = { "clang-format" },
+                cpp = { "clang-format" },
+                rust = { "rustfmt", lsp_format = "fallback" },
             },
             format_on_save = {
                 timeout_ms = 500,
