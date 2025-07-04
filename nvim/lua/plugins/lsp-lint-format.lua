@@ -253,7 +253,7 @@ return {
         event = "BufWritePre",
         opts = {
             formatters = {
-                clang_format = {
+                ["clang-format"] = {
                     args = { "--fallback-style=Google" },
                 },
             },
