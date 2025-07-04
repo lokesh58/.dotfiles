@@ -150,11 +150,12 @@ return {
             -- for you, so that they are available from within Neovim.
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                "stylua", -- Used to format Lua code
                 "cspell",
+                "stylua", -- Used to format Lua code
                 "markdownlint-cli2",
                 "eslint_d",
                 "prettierd",
+                "clang-format",
                 "debugpy",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -265,7 +266,7 @@ return {
                 typescriptreact = { "prettierd" },
                 c = { "clang-format" },
                 cpp = { "clang-format" },
-                rust = { "rustfmt", lsp_format = "fallback" },
+                rust = { lsp_format = "fallback" },
             },
             format_on_save = {
                 timeout_ms = 500,
