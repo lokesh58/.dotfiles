@@ -1,11 +1,13 @@
 return {
     {
         "nvim-lualine/lualine.nvim",
+        enabled = false,
         dependencies = { "AndreM222/copilot-lualine" },
         opts = {
             options = {
-                theme = "catppuccin-mocha",
+                theme = "auto",
             },
+            extensions = { "avante", "fugitive", "nvim-dap-ui", "oil" },
             sections = {
                 lualine_a = {
                     "mode",
@@ -17,11 +19,7 @@ return {
                 lualine_b = { "branch", "diff" },
                 lualine_c = {
                     "filename",
-                    {
-                        require("noice").api.status.search.get,
-                        cond = require("noice").api.status.search.has,
-                        color = { fg = "#ff9e64" },
-                    },
+                    "searchcount",
                 },
                 lualine_x = {
                     "diagnostics",
