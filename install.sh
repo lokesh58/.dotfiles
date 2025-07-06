@@ -81,6 +81,7 @@ main() {
     setup_bash
     setup_git
     setup_ssh
+    setup_wezterm
     echo "Setup complete!"
 }
 
