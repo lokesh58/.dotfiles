@@ -1,9 +1,8 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        dependencies = { { "nvim-treesitter/nvim-treesitter-textobjects", cond = true } },
+        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
         build = ":TSUpdate",
-        cond = true,
         main = "nvim-treesitter.configs",
         opts = {
             auto_install = true,
@@ -99,7 +98,6 @@ return {
     },
     {
         "echasnovski/mini.ai",
-        cond = true,
         opts = function()
             local ai = require("mini.ai")
             return {
@@ -145,7 +143,6 @@ return {
     },
     {
         "echasnovski/mini.surround",
-        cond = true,
         opts = {
             mappings = {
                 add = "gsa", -- Add surrounding in Normal and Visual modes

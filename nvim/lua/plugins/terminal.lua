@@ -3,7 +3,7 @@ return {
         "folke/snacks.nvim",
         keys = {
             {
-                "<C-`>",
+                "<M-/>",
                 function()
                     require("snacks").terminal()
                 end,

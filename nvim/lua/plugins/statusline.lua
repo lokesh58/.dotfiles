@@ -4,7 +4,7 @@ return {
         dependencies = { "AndreM222/copilot-lualine" },
         opts = {
             options = {
-                theme = "catppuccin",
+                theme = "catppuccin-mocha",
             },
             sections = {
                 lualine_a = {

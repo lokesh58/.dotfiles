@@ -16,14 +16,11 @@ end
 vim.opt.rtp:prepend(lazy_path)
 
 require("lazy").setup({
-    defaults = {
-        cond = not vim.g.vscode,
-    },
     spec = {
         { import = "plugins" },
     },
     install = {
-        colorscheme = { "catppuccin" },
+        colorscheme = { "catppuccin-mocha" },
     },
     checker = {
         enabled = true,
