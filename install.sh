@@ -80,7 +80,7 @@ setup_neovim() {
     if [ ! -d "$HOME/.config" ]; then
         mkdir "$HOME/.config"
     fi
-    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config"
 }
 
 # Main script
