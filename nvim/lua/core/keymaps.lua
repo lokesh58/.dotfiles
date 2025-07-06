@@ -21,8 +21,7 @@ vim.keymap.set("x", ">", ">gv", opts)
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Close neovim" })
 
 -- delete / change / paste without affecting clipboard
-vim.keymap.set("x", "<leader>p", [["_dp]])
-vim.keymap.set("x", "<leader>P", [["_dP]])
+vim.keymap.set("x", "<leader>p", [["_dP]])
 -- commented below one as s is being used for flash.nvim
 -- vim.keymap.set({ "n", "x" }, "<leader>s", [["_s]])
 vim.keymap.set({ "n", "x" }, "<leader>c", [["_c]])
