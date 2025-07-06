@@ -34,4 +34,7 @@ return {
             { "]H", "<cmd>Gitsigns nav_hunk first<CR>", desc = "Goto first Git hunk" },
         },
     },
+    {
+        "tpope/vim-fugitive"
+    }
 }
