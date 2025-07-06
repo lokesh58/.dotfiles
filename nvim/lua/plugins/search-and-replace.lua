@@ -4,7 +4,6 @@ return {
         opts = {
             transient = true,
             windowCreationCommand = "topleft vsplit",
-            startInInsertMode = false,
         },
         cmd = "GrugFar",
         keys = {
