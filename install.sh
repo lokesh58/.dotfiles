@@ -63,6 +63,16 @@ setup_ssh_config_local() {
     fi
 }
 
+# Function to set up wezterm
+setup_wezterm() {
+    echo "Setting up wezterm..."
+    sudo pacman -S --noconfirm --needed wezterm ttf-meslo-nerd
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
