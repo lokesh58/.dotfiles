@@ -70,7 +70,7 @@ setup_wezterm() {
     if [ ! -d "$HOME/.config" ]; then
         mkdir "$HOME/.config"
     fi
-    ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
+    ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config"
 }
 
 # Main script
