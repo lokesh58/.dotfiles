@@ -254,7 +254,7 @@ return {
         opts = {
             formatters = {
                 ["clang-format"] = {
-                    args = { "--fallback-style=Google" },
+                    args = { "--assume-filename", "$FILENAME", "--fallback-style", "Google" },
                 },
             },
             formatters_by_ft = {
