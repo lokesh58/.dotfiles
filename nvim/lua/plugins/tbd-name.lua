@@ -23,9 +23,9 @@ return {
                     diag_error = utils.get_highlight("DiagnosticError").fg,
                     diag_hint = utils.get_highlight("DiagnosticHint").fg,
                     diag_info = utils.get_highlight("DiagnosticInfo").fg,
-                    git_del = utils.get_highlight("diffDeleted").fg,
-                    git_add = utils.get_highlight("diffAdded").fg,
-                    git_change = utils.get_highlight("diffChanged").fg,
+                    git_del = utils.get_highlight("GitSignsChange").fg,
+                    git_add = utils.get_highlight("GitSignsAdd").fg,
+                    git_change = utils.get_highlight("GitSignsDelete").fg,
                 }
             end
             vim.api.nvim_create_augroup("Heirline", { clear = true })
@@ -292,9 +292,9 @@ return {
             -- I take no credits for this! 🦁
             local ScrollBar = {
                 static = {
-                    sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
+                    -- sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
                     -- Another variant, because the more choice the better.
-                    -- sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
+                    sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
                 },
                 provider = function(self)
                     local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -425,34 +425,14 @@ return {
 
             -- Diagnostics
             local Diagnostics = {
-
                 condition = conditions.has_diagnostics,
-                -- Example of defining custom LSP diagnostic icons, you can copypaste in your config:
-                --vim.diagnostic.config({
-                --  signs = {
-                --    text = {
-                --      [vim.diagnostic.severity.ERROR] = '',
-                --      [vim.diagnostic.severity.WARN] = '',
-                --      [vim.diagnostic.severity.INFO] = '󰋇',
-                --      [vim.diagnostic.severity.HINT] = '󰌵',
-                --    },
-                --  },
-                --})
                 -- Fetching custom diagnostic icons
-                error_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.ERROR],
-                warn_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.WARN],
-                info_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.INFO],
-                hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT],
-
-                -- If you defined custom LSP diagnostics with vim.fn.sign_define(), use this instead
-                -- Note defining custom LSP diagnostic this way its deprecated, though
-                --static = {
-                --    error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-                --    warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-                --    info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-                --    hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
-                --},
-
+                static = {
+                    error_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.ERROR],
+                    warn_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.WARN],
+                    info_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.INFO],
+                    hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT],
+                },
                 init = function(self)
                     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -673,18 +653,14 @@ return {
                 Space,
                 FileNameBlock,
                 Space,
-                -- Git,
+                Git,
                 Space,
-                -- Diagnostics,
+                Diagnostics,
                 Align,
                 Navic,
                 DAPMessages,
                 Align,
                 LSPActive,
-                Space,
-                LSPMessages,
-                Space,
-                UltTest,
                 Space,
                 FileType,
                 Space,
