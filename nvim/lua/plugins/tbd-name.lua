@@ -664,7 +664,7 @@ return {
             }
 
             local ShowCmd = {
-                provider = ":%3.5(%S%)",
+                provider = "%3.5(%S%)",
             }
 
             -- Utils
