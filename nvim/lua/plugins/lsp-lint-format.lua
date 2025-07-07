@@ -10,6 +10,7 @@ return {
             "folke/snacks.nvim",
             { "smjonas/inc-rename.nvim", opts = { save_in_cmdline_history = false } },
             { "aznhe21/actions-preview.nvim", opts = {} },
+            "SmiteshP/nvim-navic",
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -173,6 +174,13 @@ return {
                         server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
                         require("lspconfig")[server_name].setup(server)
                     end,
+                },
+            })
+
+            require("nvim-navic").setup({
+                lsp = {
+                    auto_attach = true,
+                    preference = vim.tbl_keys(servers or {}),
                 },
             })
         end,
