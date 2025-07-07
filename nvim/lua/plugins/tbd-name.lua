@@ -309,6 +309,14 @@ return {
             local LSPActive = {
                 condition = conditions.lsp_attached,
                 update = { "LspAttach", "LspDetach" },
+                on_click = {
+                    callback = function()
+                        vim.defer_fn(function()
+                            vim.cmd("LspInfo")
+                        end, 100)
+                    end,
+                    name = "heirline_LSP",
+                },
 
                 -- You can keep it simple,
                 -- provider = " [LSP]",
@@ -434,6 +442,11 @@ return {
                     hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT],
                 },
                 init = function(self)
+                    -- self.error_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.ERROR]
+                    -- self.warn_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.WARN]
+                    -- self.info_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.INFO]
+                    -- self.hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT]
+
                     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
                     self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
@@ -441,6 +454,14 @@ return {
                 end,
 
                 update = { "DiagnosticChanged", "BufEnter" },
+                on_click = {
+                    callback = function()
+                        require("trouble").toggle("diagnostics")
+                        -- or
+                        -- vim.diagnostic.setqflist()
+                    end,
+                    name = "heirline_diagnostics",
+                },
 
                 {
                     provider = "![",
@@ -485,6 +506,15 @@ return {
                         or self.status_dict.removed ~= 0
                         or self.status_dict.changed ~= 0
                 end,
+
+                on_click = {
+                    callback = function()
+                        vim.defer_fn(function()
+                            require("snacks").lazygit()
+                        end, 100)
+                    end,
+                    name = "heirline_git",
+                },
 
                 hl = { fg = "orange" },
 
@@ -633,11 +663,7 @@ return {
                 },
             }
 
-            vim.opt.showcmdloc = "statusline"
             local ShowCmd = {
-                condition = function()
-                    return vim.o.cmdheight == 0
-                end,
                 provider = ":%3.5(%S%)",
             }
 
@@ -657,9 +683,10 @@ return {
                 Space,
                 Diagnostics,
                 Align,
-                Navic,
                 DAPMessages,
                 Align,
+                ShowCmd,
+                Space,
                 LSPActive,
                 Space,
                 FileType,
@@ -673,7 +700,7 @@ return {
                 condition = conditions.is_not_active,
                 FileType,
                 Space,
-                FileName,
+                FileNameBlock,
                 Align,
             }
 
@@ -727,7 +754,50 @@ return {
                 DefaultStatusline,
             }
 
-            require("heirline").setup({ statusline = StatusLines })
+            local WinBars = {
+                fallthrough = false,
+                { -- A special winbar for terminals
+                    condition = function()
+                        return conditions.buffer_matches({ buftype = { "terminal" } })
+                    end,
+                    utils.surround({ "", "" }, "dark_red", {
+                        FileType,
+                        Space,
+                        TerminalName,
+                    }),
+                },
+                { -- An inactive winbar for regular files
+                    condition = function()
+                        return not conditions.is_active()
+                    end,
+                    utils.surround(
+                        { "", "" },
+                        "bright_bg",
+                        { hl = { fg = "gray", force = true }, FileNameBlock }
+                    ),
+                },
+                -- A winbar for regular files
+                {
+                    utils.surround({ "", "" }, "bright_bg", FileNameBlock),
+                    Space,
+                    Navic,
+                },
+            }
+
+            require("heirline").setup({
+                statusline = StatusLines,
+                winbar = WinBars,
+                opts = {
+                    -- if the callback returns true, the winbar will be disabled for that window
+                    -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
+                    disable_winbar_cb = function(args)
+                        return conditions.buffer_matches({
+                            buftype = { "nofile", "prompt", "help", "quickfix" },
+                            filetype = { "^git.*", "fugitive", "Trouble", "dashboard" },
+                        }, args.buf)
+                    end,
+                },
+            })
             require("heirline").load_colors(setup_colors())
         end,
     },
