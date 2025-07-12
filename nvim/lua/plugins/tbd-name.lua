@@ -38,103 +38,36 @@ return {
 
             -- create statusline components
 
+            -- Utils
+            local Align = { provider = "%=" }
+            local Space = { provider = " " }
+
             -- ViMode
+            local CTRL_S = vim.api.nvim_replace_termcodes("<C-S>", true, false, true)
+            local CTRL_V = vim.api.nvim_replace_termcodes("<C-V>", true, false, true)
             local ViMode = {
                 init = function(self)
-                    self.mode = vim.fn.mode(1) -- :h mode()
+                    self.mode = vim.fn.mode() -- :h mode()
                 end,
                 static = {
-                    short_mode_names = {
-                        n = "N",
-                        no = "N?",
-                        nov = "N?",
-                        noV = "N?",
-                        ["no\22"] = "N?",
-                        niI = "Ni",
-                        niR = "Nr",
-                        niV = "Nv",
-                        nt = "Nt",
-                        v = "V",
-                        vs = "Vs",
-                        V = "V_",
-                        Vs = "Vs",
-                        ["\22"] = "^V",
-                        ["\22s"] = "^V",
-                        s = "S",
-                        S = "S_",
-                        ["\19"] = "^S",
-                        i = "I",
-                        ic = "Ic",
-                        ix = "Ix",
-                        R = "R",
-                        Rc = "Rc",
-                        Rx = "Rx",
-                        Rv = "Rv",
-                        Rvc = "Rv",
-                        Rvx = "Rv",
-                        c = "C",
-                        cv = "Ex",
-                        r = "...",
-                        rm = "M",
-                        ["r?"] = "?",
-                        ["!"] = "!",
-                        t = "T",
-                    },
-                    long_mode_names = {
-                        n = "NORMAL",
-                        no = "O-PENDING",
-                        nov = "O-PENDING",
-                        noV = "O-PENDING",
-                        ["no\22"] = "O-PENDING",
-                        niI = "NORMAL",
-                        niR = "NORMAL",
-                        niV = "NORMAL",
-                        nt = "NORMAL",
-                        v = "VISUAL",
-                        vs = "VISUAL",
-                        V = "V-LINE",
-                        Vs = "V-LINE",
-                        ["\22"] = "V-BLOCK",
-                        ["\22s"] = "V-BLOCK",
-                        s = "SELECT",
-                        S = "S-LINE",
-                        ["\19"] = "S-BLOCK",
-                        i = "INSERT",
-                        ic = "INSERT",
-                        ix = "INSERT",
-                        R = "REPLACE",
-                        Rc = "REPLACE",
-                        Rx = "REPLACE",
-                        Rv = "V-REPLACE",
-                        Rvc = "V-REPLACE",
-                        Rvx = "V-REPLACE",
-                        c = "COMMAND",
-                        cv = "EX",
-                        r = "REPLACE",
-                        rm = "MORE",
-                        ["r?"] = "CONFIRM",
-                        ["!"] = "SHELL",
-                        t = "TERMINAL",
-                    },
-                    mode_colors = {
-                        n = "red",
-                        i = "green",
-                        v = "cyan",
-                        V = "cyan",
-                        ["\22"] = "cyan",
-                        c = "orange",
-                        s = "purple",
-                        S = "purple",
-                        ["\19"] = "purple",
-                        R = "orange",
-                        r = "orange",
-                        ["!"] = "red",
-                        t = "red",
+                    mode_info = {
+                        ["n"] = { long = "Normal", short = "N", color = "red" },
+                        ["v"] = { long = "Visual", short = "V", color = "cyan" },
+                        ["V"] = { long = "V-Line", short = "V-L", color = "cyan" },
+                        [CTRL_V] = { long = "V-Block", short = "V-B", color = "cyan" },
+                        ["s"] = { long = "Select", short = "S", color = "purple" },
+                        ["S"] = { long = "S-Line", short = "S-L", color = "purple" },
+                        [CTRL_S] = { long = "S-Block", short = "S-B", color = "purple" },
+                        ["i"] = { long = "Insert", short = "I", color = "green" },
+                        ["R"] = { long = "Replace", short = "R", color = "orange" },
+                        ["c"] = { long = "Command", short = "C", color = "orange" },
+                        ["r"] = { long = "Prompt", short = "P", color = "orange" },
+                        ["!"] = { long = "Shell", short = "Sh", color = "red" },
+                        ["t"] = { long = "Terminal", short = "T", color = "red" },
                     },
                 },
                 hl = function(self)
-                    local mode = self.mode:sub(1, 1) -- get only the first mode character
-                    return { fg = self.mode_colors[mode], bold = true }
+                    return { fg = self.mode_info[self.mode].color, bold = true }
                 end,
                 update = {
                     "ModeChanged",
@@ -146,18 +79,18 @@ return {
                 flexible = 1,
                 {
                     provider = function(self)
-                        return " %2(" .. self.long_mode_names[self.mode] .. "%)"
+                        return " %2(" .. self.mode_info[self.mode].long .. "%)"
                     end,
                 },
                 {
                     provider = function(self)
-                        return " %2(" .. self.short_mode_names[self.mode] .. "%)"
+                        return " %2(" .. self.mode_info[self.mode].short .. "%)"
                     end,
                 },
             }
 
-            -- FileNameBlock
-            local FileNameBlock = {
+            -- File Info
+            local FileNameProvider = {
                 init = function(self)
                     self.filename = vim.api.nvim_buf_get_name(0)
                 end,
@@ -184,9 +117,7 @@ return {
                     end
                 end,
                 hl = { fg = utils.get_highlight("Directory").fg },
-
                 flexible = 2,
-
                 {
                     provider = function(self)
                         return self.lfilename
@@ -214,7 +145,7 @@ return {
                     hl = { fg = "orange" },
                 },
             }
-            local FileNameModifer = {
+            local FileNameModifier = {
                 hl = function()
                     if vim.bo.modified then
                         -- use `force` because we need to override the child's hl foreground
@@ -222,39 +153,33 @@ return {
                     end
                 end,
             }
-            FileNameBlock = utils.insert(
-                FileNameBlock,
+            local FileNameBlock = utils.insert(
+                FileNameProvider,
                 FileIcon,
-                utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+                utils.insert(FileNameModifier, FileName), -- a new table where FileName is a child of FileNameModifier
                 FileFlags,
                 { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
             )
 
-            -- FileType
             local FileType = {
                 provider = function()
-                    return string.upper(vim.bo.filetype)
+                    return vim.bo.filetype
                 end,
                 hl = { fg = utils.get_highlight("Type").fg, bold = true },
             }
+            local FileTypeBlock = {
+                utils.insert(FileNameProvider, FileIcon),
+                FileType,
+            }
 
-            -- FileEncoding
             local FileEncoding = {
-                provider = function()
-                    local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h 'enc'
-                    return enc ~= "utf-8" and enc:upper()
-                end,
+                provider = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc, -- :h 'enc',
             }
 
-            -- FileFormat
             local FileFormat = {
-                provider = function()
-                    local fmt = vim.bo.fileformat
-                    return fmt ~= "unix" and fmt:upper()
-                end,
+                provider = vim.bo.fileformat,
             }
 
-            -- FileSize
             local FileSize = {
                 provider = function()
                     -- stackoverflow, compute human readable file size
@@ -269,13 +194,21 @@ return {
                 end,
             }
 
-            -- FileLastModified
-            local FileLastModified = {
-                -- did you know? Vim is full of functions!
-                provider = function()
-                    local ftime = vim.fn.getftime(vim.api.nvim_buf_get_name(0))
-                    return (ftime > 0) and os.date("%c", ftime)
-                end,
+            local FileInfoBlock = {
+                flexible = 1,
+                {
+                    FileTypeBlock,
+                    Space,
+                    FileEncoding,
+                    { provider = "[" },
+                    FileFormat,
+                    { provider = "]" },
+                    Space,
+                    FileSize,
+                },
+                {
+                    FileTypeBlock,
+                },
             }
 
             -- Cursor Position: Ruler
@@ -292,8 +225,6 @@ return {
             -- I take no credits for this! 🦁
             local ScrollBar = {
                 static = {
-                    -- sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
-                    -- Another variant, because the more choice the better.
                     sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
                 },
                 provider = function(self)
@@ -308,6 +239,9 @@ return {
             -- LSP
             local LSPActive = {
                 condition = conditions.lsp_attached,
+                init = function(self)
+                    self.attached_lsps = vim.lsp.get_clients({ bufnr = 0 })
+                end,
                 update = { "LspAttach", "LspDetach" },
                 on_click = {
                     callback = function()
@@ -317,23 +251,26 @@ return {
                     end,
                     name = "heirline_LSP",
                 },
-
-                -- You can keep it simple,
-                -- provider = " [LSP]",
-
-                -- Or complicate things a bit and get the servers names
-                provider = function()
-                    local names = {}
-                    for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-                        table.insert(names, server.name)
-                    end
-                    return " [" .. table.concat(names, " ") .. "]"
-                end,
                 hl = { fg = "green", bold = true },
+                flexible = 1,
+                {
+                    provider = function(self)
+                        local names = {}
+                        for _, server in ipairs(self.attached_lsps) do
+                            table.insert(names, server.name)
+                        end
+                        return "  " .. table.concat(names, " ")
+                    end,
+                },
+                {
+                    provider = function(self)
+                        return " " .. string.rep("+", #self.attached_lsps)
+                    end,
+                },
             }
 
             -- Nvim Navic
-            local Navic = {
+            local FullNavic = {
                 condition = function()
                     return require("nvim-navic").is_available()
                 end,
@@ -428,8 +365,7 @@ return {
                 hl = { fg = "gray" },
                 update = "CursorMoved",
             }
-            -- Flexible component, collapses if not enough space
-            local Navic = { flexible = 3, Navic, { provider = "" } }
+            local Navic = { flexible = 1, FullNavic, { provider = "" } }
 
             -- Diagnostics
             local Diagnostics = {
@@ -442,33 +378,20 @@ return {
                     hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT],
                 },
                 init = function(self)
-                    -- self.error_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.ERROR]
-                    -- self.warn_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.WARN]
-                    -- self.info_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.INFO]
-                    -- self.hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT]
-
                     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
                     self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
                     self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
                 end,
-
                 update = { "DiagnosticChanged", "BufEnter" },
                 on_click = {
                     callback = function()
                         require("trouble").toggle("diagnostics")
-                        -- or
-                        -- vim.diagnostic.setqflist()
                     end,
                     name = "heirline_diagnostics",
                 },
-
-                {
-                    provider = "![",
-                },
                 {
                     provider = function(self)
-                        -- 0 is just another output, we can decide to print it or not!
                         return self.errors > 0 and (self.error_icon .. self.errors .. " ")
                     end,
                     hl = { fg = "diag_error" },
@@ -491,22 +414,17 @@ return {
                     end,
                     hl = { fg = "diag_hint" },
                 },
-                {
-                    provider = "]",
-                },
             }
 
             -- Git
             local Git = {
                 condition = conditions.is_git_repo,
-
                 init = function(self)
                     self.status_dict = vim.b.gitsigns_status_dict
                     self.has_changes = self.status_dict.added ~= 0
                         or self.status_dict.removed ~= 0
                         or self.status_dict.changed ~= 0
                 end,
-
                 on_click = {
                     callback = function()
                         vim.defer_fn(function()
@@ -515,9 +433,7 @@ return {
                     end,
                     name = "heirline_git",
                 },
-
                 hl = { fg = "orange" },
-
                 { -- git branch name
                     provider = function(self)
                         return " " .. self.status_dict.head
@@ -571,38 +487,6 @@ return {
                 end,
                 hl = "Debug",
                 -- see Click-it! section for clickable actions
-            }
-
-            -- Working Directory
-            local WorkDir = {
-                init = function(self)
-                    self.icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. " "
-                    local cwd = vim.fn.getcwd(0)
-                    self.cwd = vim.fn.fnamemodify(cwd, ":~")
-                end,
-                hl = { fg = "blue", bold = true },
-
-                flexible = 1,
-
-                {
-                    -- evaluates to the full-lenth path
-                    provider = function(self)
-                        local trail = self.cwd:sub(-1) == "/" and "" or "/"
-                        return self.icon .. self.cwd .. trail .. " "
-                    end,
-                },
-                {
-                    -- evaluates to the shortened path
-                    provider = function(self)
-                        local cwd = vim.fn.pathshorten(self.cwd)
-                        local trail = self.cwd:sub(-1) == "/" and "" or "/"
-                        return self.icon .. cwd .. trail .. " "
-                    end,
-                },
-                {
-                    -- evaluates to "", hiding the component
-                    provider = "",
-                },
             }
 
             -- Terminal Name
@@ -667,29 +551,25 @@ return {
                 provider = "%3.5(%S%)",
             }
 
-            -- Utils
-            local Align = { provider = "%=" }
-            local Space = { provider = " " }
-
             -- Statuslines!!
             ViMode = utils.surround({ "", "" }, "bright_bg", { MacroRec, ViMode })
 
             local DefaultStatusline = {
                 ViMode,
                 Space,
-                FileNameBlock,
-                Space,
                 Git,
                 Space,
                 Diagnostics,
                 Align,
+                SearchCount,
+                Space,
                 DAPMessages,
                 Align,
                 ShowCmd,
                 Space,
                 LSPActive,
                 Space,
-                FileType,
+                FileInfoBlock,
                 Space,
                 Ruler,
                 Space,
