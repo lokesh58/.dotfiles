@@ -36,6 +36,7 @@ return {
             vim.opt.foldlevel = 99
             vim.opt.foldlevelstart = 99
             vim.opt.foldenable = true
+            vim.opt.foldcolumn = "1"
 
             vim.keymap.set("n", "zR", require("ufo").openAllFolds, { desc = "Open all folds" })
             vim.keymap.set("n", "zM", require("ufo").closeAllFolds, { desc = "Close all folds" })
