@@ -37,8 +37,8 @@ setup_gitconfig_local() {
     local gitconfig_local="$DOTFILES_DIR/git/gitconfig.local"
     if [ ! -f "$gitconfig_local" ]; then
         echo "gitconfig.local not found."
-	echo "Using example gitconfig.local file..."
-	cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
+        echo "Using example gitconfig.local file..."
+        cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
     else
         echo "gitconfig.local already exists."
     fi
