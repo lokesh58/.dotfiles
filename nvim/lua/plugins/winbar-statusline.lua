@@ -1,7 +1,6 @@
 return {
     {
         "rebelot/heirline.nvim",
-        dependencies = { "SmiteshP/nvim-navic", "mfussenegger/nvim-dap", "lewis6991/gitsigns.nvim" },
         config = function()
             local conditions = require("heirline.conditions")
             local utils = require("heirline.utils")
@@ -45,13 +44,39 @@ return {
             -- ViMode
             local CTRL_S = vim.api.nvim_replace_termcodes("<C-S>", true, false, true)
             local CTRL_V = vim.api.nvim_replace_termcodes("<C-V>", true, false, true)
+
+            local MacroRec = {
+                condition = function()
+                    return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+                end,
+                provider = " ",
+                hl = { fg = "orange", bold = true },
+                utils.surround({ "[", "]" }, nil, {
+                    provider = function()
+                        return vim.fn.reg_recording()
+                    end,
+                    hl = { fg = "green", bold = true },
+                }),
+                update = {
+                    "RecordingEnter",
+                    "RecordingLeave",
+                },
+            }
+
+            local ShowCmd = {
+                condition = function()
+                    return vim.o.showcmdloc == "statusline"
+                end,
+                provider = ":%3.5(%S%)",
+            }
+
             local ViMode = {
                 init = function(self)
                     self.mode = vim.fn.mode() -- :h mode()
                 end,
                 static = {
                     mode_info = {
-                        ["n"] = { long = "Normal", short = "N", color = "red" },
+                        ["n"] = { long = "Normal", short = "N", color = "blue" },
                         ["v"] = { long = "Visual", short = "V", color = "cyan" },
                         ["V"] = { long = "V-Line", short = "V-L", color = "cyan" },
                         [CTRL_V] = { long = "V-Block", short = "V-B", color = "cyan" },
@@ -71,10 +96,7 @@ return {
                 end,
                 update = {
                     "ModeChanged",
-                    pattern = "*:*",
-                    callback = vim.schedule_wrap(function()
-                        vim.cmd("redrawstatus")
-                    end),
+                    "WinResized",
                 },
                 flexible = 1,
                 {
@@ -88,6 +110,8 @@ return {
                     end,
                 },
             }
+
+            local ViModeBlock = utils.surround({ "", "" }, "bright_bg", { MacroRec, ViMode, ShowCmd })
 
             -- File Info
             local FileNameProvider = {
@@ -128,6 +152,11 @@ return {
                         return vim.fn.pathshorten(self.lfilename)
                     end,
                 },
+                {
+                    provider = function(self)
+                        return vim.fn.fnamemodify(self.filename, ":t")
+                    end,
+                },
             }
             local FileFlags = {
                 {
@@ -165,7 +194,6 @@ return {
                 provider = function()
                     return vim.bo.filetype
                 end,
-                hl = { fg = utils.get_highlight("Type").fg, bold = true },
             }
             local FileTypeBlock = {
                 utils.insert(FileNameProvider, FileIcon),
@@ -195,6 +223,7 @@ return {
             }
 
             local FileInfoBlock = {
+                hl = { fg = utils.get_highlight("Type").fg, bold = true },
                 flexible = 1,
                 {
                     FileTypeBlock,
@@ -208,6 +237,14 @@ return {
                 },
                 {
                     FileTypeBlock,
+                    Space,
+                    FileEncoding,
+                    { provider = "[" },
+                    FileFormat,
+                    { provider = "]" },
+                },
+                {
+                    FileTypeBlock,
                 },
             }
 
@@ -218,14 +255,15 @@ return {
                 -- %L = number of lines in the buffer
                 -- %c = column number
                 -- %P = percentage through file of displayed window
-                provider = "%7(%l/%3L%):%2c %P",
+                provider = "%7(%l/%3L%):%2c %P",
+                hl = { bold = true },
             }
 
             -- Cursor Position: ScrollBar
             -- I take no credits for this! 🦁
             local ScrollBar = {
                 static = {
-                    sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
+                    sbar = { "█", "▇", "▆", "▅", "▄", "▃", "▂", "▁", " " },
                 },
                 provider = function(self)
                     local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -233,7 +271,7 @@ return {
                     local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
                     return string.rep(self.sbar[i], 2)
                 end,
-                hl = { fg = "blue", bg = "bright_bg" },
+                hl = { fg = "bright_bg", bg = "blue" },
             }
 
             -- LSP
@@ -242,7 +280,7 @@ return {
                 init = function(self)
                     self.attached_lsps = vim.lsp.get_clients({ bufnr = 0 })
                 end,
-                update = { "LspAttach", "LspDetach" },
+                update = { "LspAttach", "LspDetach", "WinResized" },
                 on_click = {
                     callback = function()
                         vim.defer_fn(function()
@@ -476,19 +514,6 @@ return {
                 },
             }
 
-            -- Debugger
-            local DAPMessages = {
-                condition = function()
-                    local session = require("dap").session()
-                    return session ~= nil
-                end,
-                provider = function()
-                    return " " .. require("dap").status()
-                end,
-                hl = "Debug",
-                -- see Click-it! section for clickable actions
-            }
-
             -- Terminal Name
             local TerminalName = {
                 -- we could add a condition to check that buftype == 'terminal'
@@ -529,43 +554,16 @@ return {
                 end,
             }
 
-            local MacroRec = {
-                condition = function()
-                    return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
-                end,
-                provider = " ",
-                hl = { fg = "orange", bold = true },
-                utils.surround({ "[", "]" }, nil, {
-                    provider = function()
-                        return vim.fn.reg_recording()
-                    end,
-                    hl = { fg = "green", bold = true },
-                }),
-                update = {
-                    "RecordingEnter",
-                    "RecordingLeave",
-                },
-            }
-
-            local ShowCmd = {
-                provider = "%3.5(%S%)",
-            }
-
             -- Statuslines!!
-            ViMode = utils.surround({ "", "" }, "bright_bg", { MacroRec, ViMode })
 
             local DefaultStatusline = {
-                ViMode,
+                ViModeBlock,
                 Space,
                 Git,
-                Space,
-                Diagnostics,
                 Align,
                 SearchCount,
-                Space,
-                DAPMessages,
                 Align,
-                ShowCmd,
+                Diagnostics,
                 Space,
                 LSPActive,
                 Space,
@@ -578,10 +576,8 @@ return {
 
             local InactiveStatusline = {
                 condition = conditions.is_not_active,
-                FileType,
-                Space,
-                FileNameBlock,
                 Align,
+                FileInfoBlock,
             }
 
             local SpecialStatusline = {
@@ -591,7 +587,6 @@ return {
                         filetype = { "^git.*", "fugitive" },
                     })
                 end,
-
                 FileType,
                 Space,
                 HelpFileName,
@@ -599,23 +594,15 @@ return {
             }
 
             local TerminalStatusline = {
-
                 condition = function()
                     return conditions.buffer_matches({ buftype = { "terminal" } })
                 end,
-
                 hl = { bg = "dark_red" },
-
-                -- Quickly add a condition to the ViMode to only show it when buffer is active!
-                { condition = conditions.is_active, ViMode, Space },
-                FileType,
-                Space,
-                TerminalName,
+                { condition = conditions.is_active, ViModeBlock },
                 Align,
             }
 
             local StatusLines = {
-
                 hl = function()
                     if conditions.is_active() then
                         return "StatusLine"
@@ -633,6 +620,8 @@ return {
                 InactiveStatusline,
                 DefaultStatusline,
             }
+
+            -- Winbars !!
 
             local WinBars = {
                 fallthrough = false,
@@ -663,6 +652,8 @@ return {
                     Navic,
                 },
             }
+
+            -- Statuscol !!
 
             require("heirline").setup({
                 statusline = StatusLines,
