@@ -37,8 +37,8 @@ setup_gitconfig_local() {
     local gitconfig_local="$DOTFILES_DIR/git/gitconfig.local"
     if [ ! -f "$gitconfig_local" ]; then
         echo "gitconfig.local not found."
-	echo "Using example gitconfig.local file..."
-	cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
+        echo "Using example gitconfig.local file..."
+        cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
     else
         echo "gitconfig.local already exists."
     fi
@@ -73,6 +73,16 @@ setup_wezterm() {
     ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config"
 }
 
+# Function to set up NeoVim
+setup_neovim() {
+    echo "Setting up NeoVim..."
+    sudo pacman -S --noconfirm --needed neovim lazygit make unzip fd ripgrep ast-grep
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
@@ -82,6 +92,7 @@ main() {
     setup_git
     setup_ssh
     setup_wezterm
+    setup_neovim
     echo "Setup complete!"
 }
 
