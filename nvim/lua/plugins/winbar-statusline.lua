@@ -268,7 +268,7 @@ return {
                 provider = function(self)
                     local curr_line = vim.api.nvim_win_get_cursor(0)[1]
                     local lines = vim.api.nvim_buf_line_count(0)
-                    local i = math.ceil(curr_line * #self.sbar / lines)
+                    local i = math.ceil(curr_line / lines * #self.sbar)
                     return string.rep(self.sbar[i], 2)
                 end,
                 hl = { fg = "bright_bg", bg = "blue" },
