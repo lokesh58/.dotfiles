@@ -106,6 +106,7 @@ return {
                 ["rust-analyzer"] = {},
                 ["docker-compose-language-service"] = {},
                 ["dockerfile-language-server"] = {},
+                ["bash-language-server"] = {},
             }
 
             -- Ensure the servers and tools above are installed
@@ -129,7 +130,9 @@ return {
                 "eslint_d",
                 "prettierd",
                 "clang-format",
+                "cpplint",
                 "debugpy",
+                "shfmt",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -224,6 +227,11 @@ return {
                     require("none-ls.code_actions.eslint_d").with({
                         filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
                     }),
+
+                    -- C/C++
+                    require("none-ls.diagnostics.cpplint").with({
+                        filetypes = { "c", "cpp" },
+                    }),
                 },
             }
         end,
@@ -247,6 +255,7 @@ return {
                 c = { "clang-format" },
                 cpp = { "clang-format" },
                 rust = { lsp_format = "fallback" },
+                sh = { "shfmt" },
             },
             format_on_save = {
                 timeout_ms = 500,
