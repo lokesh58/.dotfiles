@@ -131,6 +131,7 @@ return {
                 "prettierd",
                 "clang-format",
                 "cpplint",
+                "codelldb",
                 "debugpy",
                 "shfmt",
             })
