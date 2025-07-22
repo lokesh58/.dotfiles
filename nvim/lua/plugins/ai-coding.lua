@@ -1,14 +1,5 @@
 return {
     {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        opts = {
-            suggestion = { enabled = false },
-            panel = { enabled = false },
-        },
-    },
-    {
         "yetone/avante.nvim",
         event = "VeryLazy",
         version = false, -- Never set this value to "*"! Never!
@@ -25,7 +16,15 @@ return {
             "MunifTanjim/nui.nvim",
             --- The below dependencies are optional,
             "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-            { "zbirenbaum/copilot.lua" }, -- for providers='copilot'
+            {
+                "zbirenbaum/copilot.lua", -- for providers='copilot'
+                cmd = "Copilot",
+                event = "InsertEnter",
+                opts = {
+                    suggestion = { enabled = false },
+                    panel = { enabled = false },
+                },
+            },
             {
                 -- support for image pasting
                 "HakonHarnes/img-clip.nvim",
@@ -44,6 +43,8 @@ return {
                 },
             },
         },
+        ---@module 'avante'
+        ---@type avante.Config
         opts = {
             provider = "copilot",
         },

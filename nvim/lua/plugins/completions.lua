@@ -19,7 +19,6 @@ return {
         version = "1.*",
         dependencies = {
             "L3MON4D3/LuaSnip",
-            "giuxtaposition/blink-cmp-copilot",
             "Kaiser-Yang/blink-cmp-avante",
         },
         ---@module "blink.cmp"
@@ -27,7 +26,7 @@ return {
         opts = {
             keymap = { preset = "default" },
             appearance = {
-                nerd_font_variant = "mono",
+                nerd_font_variant = "normal",
             },
             completion = {
                 documentation = {
@@ -45,7 +44,6 @@ return {
                     "snippets",
                     "buffer",
                     "lazydev",
-                    "copilot",
                     "avante",
                 },
                 providers = {
@@ -53,12 +51,6 @@ return {
                         name = "LazyDev",
                         module = "lazydev.integrations.blink",
                         score_offset = 100,
-                    },
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-cmp-copilot",
-                        score_offset = 100,
-                        async = true,
                     },
                     avante = {
                         module = "blink-cmp-avante",
