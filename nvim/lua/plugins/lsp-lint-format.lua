@@ -262,14 +262,14 @@ return {
                 timeout_ms = 500,
             },
         },
-        keys = {
-            {
-                "<leader>cf",
-                function()
-                    require("conform").format({ async = true })
-                end,
-                desc = "Format Code",
-            },
-        },
+        -- keys = {
+        --     {
+        --         "<leader>cf",
+        --         function()
+        --             require("conform").format({ async = true })
+        --         end,
+        --         desc = "Format Code",
+        --     },
+        -- },
     },
 }
