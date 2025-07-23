@@ -3,7 +3,6 @@ return {
         "MagicDuck/grug-far.nvim",
         opts = {
             transient = true,
-            windowCreationCommand = "topleft vsplit",
         },
         cmd = "GrugFar",
         keys = {
