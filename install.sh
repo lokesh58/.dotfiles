@@ -24,6 +24,18 @@ clone_dotfiles_repo() {
 setup_bash() {
     echo "Setting up Bash..."
     ln -sf "$DOTFILES_DIR/bash/bashrc" "$HOME/.bashrc"
+    setup_bashrc_local
+}
+
+setup_bashrc_local() {
+    local bashrc_local="$DOTFILES_DIR/bash/bashrc.local"
+    if [ ! -f "$bashrc_local" ]; then
+        echo "bashrc.local not found."
+        echo "Using example bashrc.local file..."
+        cp "$DOTFILES_DIR/git/bashrc.local.example" "$bashrc_local"
+    else
+        echo "bashrc.local already exists."
+    fi
 }
 
 # Function to set up git
