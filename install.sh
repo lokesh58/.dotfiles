@@ -95,6 +95,15 @@ setup_neovim() {
     ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config"
 }
 
+# Function to set up MangoHud
+setup_mangohud() {
+    echo "Setting up MangoHud..."
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/MangoHud" "$HOME/.config"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
@@ -105,6 +114,7 @@ main() {
     setup_ssh
     setup_wezterm
     setup_neovim
+    setup_mangohud
     echo "Setup complete!"
 }
 
