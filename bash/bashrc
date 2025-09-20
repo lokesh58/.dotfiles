@@ -7,6 +7,7 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias plasma='/usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland'
 PS1='[\u@\h \W]\$ '
 
 if [ -f ~/.dotfiles/bash/bashrc.local ]; then
