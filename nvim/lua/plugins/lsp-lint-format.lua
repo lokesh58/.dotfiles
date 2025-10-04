@@ -217,22 +217,14 @@ return {
                     require("cspell").code_actions,
 
                     -- Markdown
-                    require("null-ls").builtins.diagnostics.markdownlint_cli2.with({
-                        filetypes = { "markdown" },
-                    }),
+                    require("null-ls").builtins.diagnostics.markdownlint_cli2,
 
                     -- JS/TS
-                    require("none-ls.diagnostics.eslint_d").with({
-                        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-                    }),
-                    require("none-ls.code_actions.eslint_d").with({
-                        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-                    }),
-
+                    require("none-ls.diagnostics.eslint_d"),
+                    require("none-ls.code_actions.eslint_d"),
                     -- C/C++
-                    require("none-ls.diagnostics.cpplint").with({
-                        filetypes = { "c", "cpp" },
-                    }),
+                    require("none-ls.diagnostics.cpplint"),
+                    require("null-ls").builtins.diagnostics.cppcheck,
                 },
             }
         end,
