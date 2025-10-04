@@ -224,7 +224,6 @@ return {
                     require("none-ls.code_actions.eslint_d"),
                     -- C/C++
                     require("none-ls.diagnostics.cpplint"),
-                    require("null-ls").builtins.diagnostics.cppcheck,
                 },
             }
         end,
