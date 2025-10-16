@@ -130,7 +130,6 @@ return {
                 "eslint_d",
                 "prettierd",
                 "clang-format",
-                "cpplint",
                 "codelldb",
                 "debugpy",
                 "shfmt",
@@ -222,8 +221,6 @@ return {
                     -- JS/TS
                     require("none-ls.diagnostics.eslint_d"),
                     require("none-ls.code_actions.eslint_d"),
-                    -- C/C++
-                    require("none-ls.diagnostics.cpplint"),
                 },
             }
         end,
