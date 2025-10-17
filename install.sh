@@ -104,6 +104,15 @@ setup_mangohud() {
     ln -sf "$DOTFILES_DIR/MangoHud" "$HOME/.config"
 }
 
+# Function to set up clangd
+setup_clangd() {
+    echo "Setting up clangd..."
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/clangd" "$HOME/.config"
+}
+
 # Main script
 main() {
     echo "Starting setup..."
@@ -115,6 +124,7 @@ main() {
     setup_wezterm
     setup_neovim
     setup_mangohud
+    setup_clangd
     echo "Setup complete!"
 }
 
