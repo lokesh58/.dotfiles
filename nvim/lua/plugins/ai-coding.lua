@@ -46,8 +46,7 @@ return {
         ---@module 'avante'
         ---@type avante.Config
         opts = {
-            mode = "legacy",
-            provider = "copilot",
+            provider = "gemini",
         },
     },
 }
