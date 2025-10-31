@@ -16,6 +16,7 @@ vim.opt.updatetime = 250
 vim.opt.breakindent = true
 vim.opt.cursorline = true
 vim.opt.inccommand = "split"
+vim.opt.laststatus = 3
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣", eol = "↵" }
 vim.opt.mouse = "a"
