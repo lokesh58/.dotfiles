@@ -39,6 +39,9 @@ return {
         ---@type avante.Config
         opts = {
             provider = "gemini-cli",
+            behaviour = {
+                auto_approve_tool_permissions = false,
+            },
         },
     },
 }
