@@ -52,7 +52,7 @@ return {
             incremental_selection = {
                 enable = true,
                 keymaps = {
-                    init_selection = "<Enter>",
+                    init_selection = false,
                     node_incremental = "<Enter>",
                     scope_incremental = false,
                     node_decremental = "<Backspace>",
