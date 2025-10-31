@@ -16,15 +16,7 @@ return {
             "MunifTanjim/nui.nvim",
             --- The below dependencies are optional,
             "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-            {
-                "zbirenbaum/copilot.lua", -- for providers='copilot'
-                cmd = "Copilot",
-                event = "InsertEnter",
-                opts = {
-                    suggestion = { enabled = false },
-                    panel = { enabled = false },
-                },
-            },
+            "zbirenbaum/copilot.lua", -- for providers='copilot'
             {
                 -- support for image pasting
                 "HakonHarnes/img-clip.nvim",
@@ -46,7 +38,7 @@ return {
         ---@module 'avante'
         ---@type avante.Config
         opts = {
-            provider = "gemini",
+            provider = "gemini-cli",
         },
     },
 }
