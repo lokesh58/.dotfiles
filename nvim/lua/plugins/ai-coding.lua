@@ -41,6 +41,7 @@ return {
             provider = "gemini-cli",
             behaviour = {
                 auto_approve_tool_permissions = false,
+                confirmation_ui_style = "popup",
             },
         },
     },
