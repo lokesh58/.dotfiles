@@ -107,6 +107,7 @@ return {
                 ["docker-compose-language-service"] = {},
                 ["dockerfile-language-server"] = {},
                 ["bash-language-server"] = {},
+                ["powershell-editor-services"] = {},
             }
 
             -- Ensure the servers and tools above are installed
@@ -245,19 +246,20 @@ return {
                 cpp = { "clang-format" },
                 rust = { lsp_format = "fallback" },
                 sh = { "shfmt" },
+                ps1 = { lsp_format = "fallback" },
             },
             format_on_save = {
                 timeout_ms = 500,
             },
         },
-        -- keys = {
-        --     {
-        --         "<leader>cf",
-        --         function()
-        --             require("conform").format({ async = true })
-        --         end,
-        --         desc = "Format Code",
-        --     },
-        -- },
+        keys = {
+            {
+                "<leader>cf",
+                function()
+                    require("conform").format({ async = true })
+                end,
+                desc = "Format Code",
+            },
+        },
     },
 }
