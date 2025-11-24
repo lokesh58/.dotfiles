@@ -6,7 +6,7 @@ return {
         ---@type oil.SetupOpts
         opts = {
             default_file_explorer = true,
-            delete_to_trash = true,
+            delete_to_trash = false,
             lsp_file_methods = {
                 enabled = true,
                 autosave_changes = "unmodified",
@@ -39,11 +39,21 @@ return {
             },
         },
         keys = {
-            { "<leader>ee", function() require("mini.files").open() end, { desc = "Open mini files explorer" } },
-            { "<leader>ef", function()
-                require("mini.files").open(vim.api.nvim_buf_get_name(0), false)
-                require("mini.files").reveal_cwd()
-            end, { desc = "Open mini files explorer into current open file" } },
+            {
+                "<leader>ee",
+                function()
+                    require("mini.files").open()
+                end,
+                { desc = "Open mini files explorer" },
+            },
+            {
+                "<leader>ef",
+                function()
+                    require("mini.files").open(vim.api.nvim_buf_get_name(0), false)
+                    require("mini.files").reveal_cwd()
+                end,
+                { desc = "Open mini files explorer into current open file" },
+            },
         },
     },
     {
