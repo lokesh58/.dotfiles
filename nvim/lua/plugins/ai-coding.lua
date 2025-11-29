@@ -43,6 +43,12 @@ return {
                 auto_approve_tool_permissions = false,
                 confirmation_ui_style = "popup",
             },
+            selector = {
+                provider = "snacks",
+            },
+            input = {
+                provider = "snacks",
+            },
         },
     },
 }
