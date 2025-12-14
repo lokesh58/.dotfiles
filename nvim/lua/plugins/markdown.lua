@@ -13,15 +13,4 @@ return {
         },
         ft = markdown_file_types,
     },
-    {
-        "OXY2DEV/markview.nvim",
-        lazy = false,
-        opts = {
-            preview = {
-                filetypes = markdown_file_types,
-                ignore_buftypes = {},
-            },
-            file_types = markdown_file_types,
-        },
-    },
 }
