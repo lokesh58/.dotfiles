@@ -39,6 +39,13 @@ return {
         ---@type avante.Config
         opts = {
             provider = "gemini-cli",
+            acp_providers = {
+                ["gemini-cli"] = {
+                    command = "gemini",
+                    args = { "--experimental-acp" },
+                    auth_method = "oauth-personal",
+                },
+            },
             behaviour = {
                 auto_approve_tool_permissions = false,
                 confirmation_ui_style = "popup",
@@ -49,6 +56,55 @@ return {
             input = {
                 provider = "snacks",
             },
+        },
+    },
+    {
+        "olimorris/codecompanion.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            {
+                "HakonHarnes/img-clip.nvim",
+                opts = {
+                    filetypes = {
+                        codecompanion = {
+                            prompt_for_file_name = false,
+                            template = "[Image]($FILE_PATH)",
+                            use_absolute_path = true,
+                        },
+                    },
+                },
+            },
+        },
+        opts = {
+            adapters = {
+                acp = {
+                    gemini_cli = function()
+                        return require("codecompanion.adapters").extend("gemini_cli", {
+                            defaults = {
+                                auth_method = "oauth-personal", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
+                            },
+                        })
+                    end,
+                },
+            },
+            strategies = {
+                chat = {
+                    adapter = "gemini_cli",
+                },
+                agent = {
+                    adapter = "gemini_cli",
+                },
+                -- inline = {
+                --     adapter = "copilot",
+                -- },
+                -- cmd = {
+                --     adapter = "deepseek",
+                -- },
+            },
+        },
+        keys = {
+            { "<leader>cc", "<cmd>CodeCompanionChat<CR>", mode = { "n", "x" }, desc = "CodeCompanion: Chat" },
+            { "<leader>ct", "<cmd>CodeCompanionChat Toggle<CR>", mode = { "n", "x" }, desc = "CodeCompanion: Chat" },
         },
     },
 }
