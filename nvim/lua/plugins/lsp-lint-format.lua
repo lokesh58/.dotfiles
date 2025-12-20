@@ -234,10 +234,13 @@ return {
                 ["clang-format"] = {
                     args = { "--assume-filename", "$FILENAME", "--fallback-style", "none" },
                 },
+                ["markdownlint-cli2"] = {
+                    args = { "--fix", "$FILENAME" },
+                },
             },
             formatters_by_ft = {
                 lua = { "stylua" },
-                markdown = { "prettierd" },
+                markdown = { "prettierd", "markdownlint-cli2" },
                 javascript = { "prettierd" },
                 javascriptreact = { "prettierd" },
                 typescript = { "prettierd" },
