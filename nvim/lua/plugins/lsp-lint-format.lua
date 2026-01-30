@@ -257,11 +257,11 @@ return {
         },
         keys = {
             {
-                "<leader>cf",
+                "<leader>bf",
                 function()
                     require("conform").format({ async = true })
                 end,
-                desc = "Format Code",
+                desc = "Format Buffer",
             },
         },
     },
