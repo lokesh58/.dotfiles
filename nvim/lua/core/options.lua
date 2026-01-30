@@ -28,7 +28,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.splitbelow = true
 vim.opt.splitkeep = "screen"
 vim.opt.splitright = true
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
