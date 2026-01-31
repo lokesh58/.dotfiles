@@ -5,7 +5,7 @@ return {
             "nvim-lua/plenary.nvim",
             "ravitemer/codecompanion-history.nvim",
             {
-                "HakonHarnes/img-clip.nvim",
+                "hakonharnes/img-clip.nvim",
                 opts = {
                     filetypes = {
                         codecompanion = {
@@ -30,6 +30,9 @@ return {
                         expiration_days = 14,
                         picker = "snacks",
                         continue_last_chat = true,
+                        chat_filter = function(chat_data)
+                            return chat_data.cwd == vim.fn.getcwd()
+                        end,
                     },
                 },
             },
