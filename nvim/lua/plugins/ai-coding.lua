@@ -1,5 +1,13 @@
 return {
     {
+        "ravitemer/mcphub.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        build = "bundled_build.lua",
+        opts = {
+            use_bundled_binary = true,
+        },
+    },
+    {
         "olimorris/codecompanion.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -16,14 +24,6 @@ return {
                     },
                 },
             },
-            -- {
-            --     "ravitemer/mcphub.nvim",
-            --     dependencies = { "nvim-lua/plenary.nvim" },
-            --     build = "bundled_build.lua",
-            --     opts = {
-            --         use_bundled_binary = true,
-            --     },
-            -- },
         },
         opts = {
             interactions = {
@@ -42,17 +42,17 @@ return {
                         end,
                     },
                 },
-                -- not working with gemini_cli, need to explore a bit more
-                -- mcphub = {
-                --     callback = "mcphub.extensions.codecompanion",
-                --     opts = {
-                --         make_tools = true,
-                --         show_server_tools_in_chat = true,
-                --         make_vars = true,
-                --         make_slash_commands = true,
-                --         show_result_in_chat = true,
-                --     },
-                -- },
+                mcphub = {
+                    callback = "mcphub.extensions.codecompanion",
+                    opts = {
+                        make_tools = true,
+                        show_server_tools_in_chat = true,
+                        add_mcp_prefix_to_tool_names = false,
+                        show_result_in_chat = true,
+                        make_vars = true,
+                        make_slash_commands = true,
+                    },
+                },
             },
         },
         keys = {
