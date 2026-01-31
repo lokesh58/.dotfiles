@@ -1,4 +1,4 @@
-local markdown_file_types = { "markdown", "Avante", "codecompanion" }
+local markdown_file_types = { "markdown", "codecompanion" }
 
 return {
     {
