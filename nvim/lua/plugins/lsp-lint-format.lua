@@ -108,6 +108,7 @@ return {
                 ["dockerfile-language-server"] = {},
                 ["bash-language-server"] = {},
                 ["powershell-editor-services"] = {},
+                ["typos-lsp"] = {},
             }
 
             -- Ensure the servers and tools above are installed
@@ -125,7 +126,6 @@ return {
             -- for you, so that they are available from within Neovim.
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                "cspell",
                 "stylua", -- Used to format Lua code
                 "markdownlint-cli2",
                 "eslint_d",
@@ -202,20 +202,11 @@ return {
         "nvimtools/none-ls.nvim",
         dependencies = {
             "nvimtools/none-ls-extras.nvim",
-            "davidmh/cspell.nvim",
         },
         main = "null-ls",
         opts = function()
             return {
                 sources = {
-                    -- Spelling
-                    require("cspell").diagnostics.with({
-                        diagnostics_postprocess = function(diagnostic)
-                            diagnostic.severity = vim.diagnostic.severity.HINT
-                        end,
-                    }),
-                    require("cspell").code_actions,
-
                     -- Markdown
                     require("null-ls").builtins.diagnostics.markdownlint_cli2,
 
