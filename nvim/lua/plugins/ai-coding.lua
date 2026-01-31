@@ -16,6 +16,14 @@ return {
                     },
                 },
             },
+            -- {
+            --     "ravitemer/mcphub.nvim",
+            --     dependencies = { "nvim-lua/plenary.nvim" },
+            --     build = "bundled_build.lua",
+            --     opts = {
+            --         use_bundled_binary = true,
+            --     },
+            -- },
         },
         opts = {
             interactions = {
@@ -29,12 +37,22 @@ return {
                     opts = {
                         expiration_days = 14,
                         picker = "snacks",
-                        continue_last_chat = true,
                         chat_filter = function(chat_data)
                             return chat_data.cwd == vim.fn.getcwd()
                         end,
                     },
                 },
+                -- not working with gemini_cli, need to explore a bit more
+                -- mcphub = {
+                --     callback = "mcphub.extensions.codecompanion",
+                --     opts = {
+                --         make_tools = true,
+                --         show_server_tools_in_chat = true,
+                --         make_vars = true,
+                --         make_slash_commands = true,
+                --         show_result_in_chat = true,
+                --     },
+                -- },
             },
         },
         keys = {
