@@ -64,3 +64,16 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to right window"
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to left window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to down window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to up window" })
+
+--------------------------------------------------------------------------------------------
+-- file path related
+--------------------------------------------------------------------------------------------
+
+vim.keymap.set("n", "<leader>bpc", function()
+    vim.fn.setreg("+", vim.fn.expand("%"))
+    vim.notify("Copied relative path to clipboard: " .. vim.fn.expand("%"))
+end, { desc = "Copy relative path of current buffer" })
+vim.keymap.set("n", "<leader>bPc", function()
+    vim.fn.setreg("+", vim.fn.expand("%:p"))
+    vim.notify("Copied absolute path to clipboard: " .. vim.fn.expand("%:p"))
+end, { desc = "Copy absolute path of current buffer" })
