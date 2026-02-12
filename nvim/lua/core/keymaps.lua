@@ -70,8 +70,8 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to up window" })
 --------------------------------------------------------------------------------------------
 
 vim.keymap.set("n", "<leader>bpc", function()
-    vim.fn.setreg("+", vim.fn.expand("%"))
-    vim.notify("Copied relative path to clipboard: " .. vim.fn.expand("%"))
+    vim.fn.setreg("+", vim.fn.expand("%:."))
+    vim.notify("Copied relative path to clipboard: " .. vim.fn.expand("%:."))
 end, { desc = "Copy relative path of current buffer" })
 vim.keymap.set("n", "<leader>bPc", function()
     vim.fn.setreg("+", vim.fn.expand("%:p"))
