@@ -1,9 +1,5 @@
-[gpg]
-    format = ssh
 [user]
     signingkey = "<YOUR_PUBLIC_KEY>"
     email = john.doe@example.com
     name = John Doe
     user = john.doe
-[commit]
-    gpgsign = true
