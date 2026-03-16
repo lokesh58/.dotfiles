@@ -161,6 +161,20 @@ setup_rust() {
     rustup default stable
 }
 
+# FUnction to set up mcphub
+setup_mcphub() {
+    if ! ask_yes_no "Setup MCPHub?"; then
+        echo "Skipping MCPHub setup..."
+        return 1
+    fi
+    echo "Setting up MCPHub..."
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+        chmod 700 "$HOME/.config"
+    fi
+    ln -sf "$DOTFILES_DIR/mcphub" "$HOME/.config"
+}
+
 # Function to set up MangoHud
 setup_mangohud() {
     if ! ask_yes_no "Setup MangoHud?"; then
@@ -199,6 +213,7 @@ main() {
     setup_ssh
     setup_wezterm
     setup_neovim
+    setup_mcphub
     setup_mangohud
     setup_clangd
     echo "Setup complete! Recommended to restart shell"
