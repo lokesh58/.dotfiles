@@ -1,12 +1,18 @@
 [core]
-  editor = nvim
+    editor = nvim
+
+[gpg]
+    format = ssh
+
+[commit]
+    gpgsign = true
 
 [init]
-  defaultBranch = main
+    defaultBranch = main
 
 [push]
-  autoSetupRemote = true
+    autoSetupRemote = true
 
 [include]
-  # Include user details from local file
-  path = ~/.dotfiles/git/gitconfig.local
+    # Include user details from local file
+    path = ~/.dotfiles/git/gitconfig.local
