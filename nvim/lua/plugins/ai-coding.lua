@@ -1,17 +1,19 @@
 return {
-    {
-        "ravitemer/mcphub.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        build = "bundled_build.lua",
-        opts = {
-            use_bundled_binary = true,
-        },
-    },
+    -- mcphub is not used with acp, so commenting out for now
+    -- {
+    --     "ravitemer/mcphub.nvim",
+    --     dependencies = { "nvim-lua/plenary.nvim" },
+    --     build = "bundled_build.lua",
+    --     opts = {
+    --         use_bundled_binary = true,
+    --     },
+    -- },
     {
         "olimorris/codecompanion.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "ravitemer/codecompanion-history.nvim",
+            -- history doesn't work properly with acp adapters
+            -- "ravitemer/codecompanion-history.nvim",
             {
                 "hakonharnes/img-clip.nvim",
                 opts = {
@@ -32,30 +34,30 @@ return {
                 },
             },
             extensions = {
-                history = {
-                    enabled = true,
-                    opts = {
-                        expiration_days = 14,
-                        picker = "snacks",
-                        chat_filter = function(chat_data)
-                            return chat_data.cwd == vim.fn.getcwd()
-                        end,
-                    },
-                },
-                mcphub = {
-                    callback = "mcphub.extensions.codecompanion",
-                    opts = {
-                        -- MCP Tools
-                        make_tools = true,
-                        show_server_tools_in_chat = true,
-                        add_mcp_prefix_to_tool_names = false,
-                        show_result_in_chat = true,
-                        -- MCP Resources
-                        make_vars = false, -- make this true once it's compatibility with CCv19 is fixed
-                        -- MCP Prompts
-                        make_slash_commands = true,
-                    },
-                },
+                -- history = {
+                --     enabled = true,
+                --     opts = {
+                --         expiration_days = 14,
+                --         picker = "snacks",
+                --         chat_filter = function(chat_data)
+                --             return chat_data.cwd == vim.fn.getcwd()
+                --         end,
+                --     },
+                -- },
+                -- mcphub = {
+                --     callback = "mcphub.extensions.codecompanion",
+                --     opts = {
+                --         -- MCP Tools
+                --         make_tools = true,
+                --         show_server_tools_in_chat = true,
+                --         add_mcp_prefix_to_tool_names = false,
+                --         show_result_in_chat = true,
+                --         -- MCP Resources
+                --         make_vars = true,
+                --         -- MCP Prompts
+                --         make_slash_commands = true,
+                --     },
+                -- },
             },
         },
         keys = {
