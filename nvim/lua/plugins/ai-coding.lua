@@ -9,7 +9,6 @@ return {
     },
     {
         "olimorris/codecompanion.nvim",
-        version = "18.7.0", -- delay v19 upgrade till mcphub is updated
         dependencies = {
             "nvim-lua/plenary.nvim",
             "ravitemer/codecompanion-history.nvim",
@@ -52,7 +51,7 @@ return {
                         add_mcp_prefix_to_tool_names = false,
                         show_result_in_chat = true,
                         -- MCP Resources
-                        make_vars = true,
+                        make_vars = false, -- make this true once it's compatibility with CCv19 is fixed
                         -- MCP Prompts
                         make_slash_commands = true,
                     },
