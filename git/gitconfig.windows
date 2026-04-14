@@ -1,0 +1,7 @@
+# Use Windows system OpenSSH for Bitwarden SSH agent compatibility
+
+[core]
+    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+
+[gpg "ssh"]
+	program = C:/Windows/System32/OpenSSH/ssh-keygen.exe

@@ -1,4 +1,5 @@
 [core]
+    autocrlf = true
     editor = nvim
 
 [gpg]
@@ -16,3 +17,7 @@
 [include]
     # Include user details from local file
     path = ~/.dotfiles/git/gitconfig.local
+
+[includeIf "gitdir:C:/"]
+    # Include Windows-specific configuration if on Windows (C: drive)
+    path = ~/.dotfiles/git/gitconfig.windows
