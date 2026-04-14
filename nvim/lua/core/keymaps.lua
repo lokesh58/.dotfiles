@@ -10,9 +10,8 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set("x", "<M-j>", ":move '>+1<CR>gv=gv", { desc = "Move lines down in visual selection" })
 vim.keymap.set("x", "<M-k>", ":move '<-2<CR>gv=gv", { desc = "Move lines up in visual selection" })
 
--- Commented below two as they cause some buggy behaviour with snacks animation
--- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up in buffer with cursor centered" })
--- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down in buffer with cursor centered" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up in buffer with cursor centered" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down in buffer with cursor centered" })
 
 -- keep visual selection while changing indentation of selected text
 vim.keymap.set("x", "<", "<gv", opts)
@@ -25,8 +24,7 @@ vim.keymap.set({ "n", "x" }, "<leader>y", [["+y]])
 
 -- paste / change / delete without affecting clipboard
 vim.keymap.set("x", "<leader>p", [["_dP]])
--- commented below one as s is being used for flash.nvim
--- vim.keymap.set({ "n", "x" }, "<leader>s", [["_s]])
+vim.keymap.set({ "n", "x" }, "<leader>s", [["_s]])
 vim.keymap.set({ "n", "x" }, "<leader>c", [["_c]])
 vim.keymap.set({ "n", "x" }, "<leader>x", [["_x]])
 vim.keymap.set({ "n", "x" }, "<leader>d", [["_d]])
