@@ -5,10 +5,9 @@ local config = wezterm.config_builder()
 config.color_scheme = "Catppuccin Mocha"
 
 config.font_size = 12
-config.font = wezterm.font("MesloLGM Nerd Font")
+config.font = wezterm.font("JetBrainsMono Nerd Font")
 
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-	config.default_prog = { "pwsh.exe" }
-end
+local windows = require("windows")
+windows.apply_to_config(config)
 
 return config
