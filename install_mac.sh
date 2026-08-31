@@ -134,9 +134,28 @@ setup_wezterm() {
         return 1
     fi
     echo "Setting up wezterm..."
-    brew install --cask wezterm
+    brew install --cask wezterm font-jetbrains-mono-nerd-font
     ensure_config_dir
     ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
+}
+
+# Function to set up Zed
+setup_zed() {
+    if ! ask_yes_no "Setup Zed?"; then
+        echo "Skipping Zed setup..."
+        return 1
+    fi
+    echo "Setting up Zed..."
+    brew install --cask zed font-jetbrains-mono-nerd-font
+    ensure_config_dir
+    mkdir -p "$HOME/.config/zed"
+    ln -sf "$DOTFILES_DIR/zed/settings.json" "$HOME/.config/zed/settings.json"
+    chmod 600 "$DOTFILES_DIR/zed/settings.json"
+    echo "Zed settings symlinked."
+    if [ -f "$DOTFILES_DIR/zed/extensions.txt" ]; then
+        echo "Extensions to install (do this manually via Zed's extension manager):"
+        cat "$DOTFILES_DIR/zed/extensions.txt"
+    fi
 }
 
 # Function to set up NeoVim
@@ -159,6 +178,7 @@ main() {
     setup_git
     setup_ssh
     setup_wezterm
+    setup_zed
     setup_neovim
     echo "Setup complete! Recommended to restart shell"
 }

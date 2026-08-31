@@ -1,0 +1,96 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "proxy": "",
+  "edit_predictions": {
+    "mode": "subtle"
+  },
+  "tabs": {
+    "show_diagnostics": "all",
+    "file_icons": true,
+    "git_status": true
+  },
+  "title_bar": {
+    "show_menus": false,
+    "show_branch_status_icon": true
+  },
+  "status_bar": {
+    "show_active_file": false,
+    "line_endings_button": true,
+    "active_encoding_button": "enabled"
+  },
+  "search": {
+    "center_on_match": true,
+    "include_ignored": true
+  },
+  "use_smartcase_search": true,
+  "show_whitespaces": "all",
+  "format_on_save": "on",
+  "vim": {
+    "use_smartcase_find": true,
+    "use_system_clipboard": "never",
+    "toggle_relative_line_numbers": true
+  },
+  "toolbar": {
+    "code_actions": true
+  },
+  "auto_signature_help": true,
+  "sticky_scroll": {
+    "enabled": true
+  },
+  "redact_private_values": true,
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha"
+  },
+  "project_panel": {
+    "diagnostic_badges": true,
+    "git_status_indicator": true,
+    "bold_folder_labels": false,
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "cli_default_open_behavior": "new_window",
+  "agent": {
+    "auto_compact": {
+      "threshold": "90%"
+    },
+    "use_modifier_to_send": true,
+    "play_sound_when_agent_done": "always",
+    "sidebar_side": "right",
+    "dock": "right",
+    "favorite_models": [],
+    "default_profile": "write",
+    "model_parameters": []
+  },
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false,
+    "anthropic_retention": false
+  },
+  "base_keymap": "VSCode",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha",
+  },
+}
