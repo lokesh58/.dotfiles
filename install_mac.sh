@@ -56,6 +56,23 @@ install_xcode_clt() {
     fi
 }
 
+# Function to install coding tools
+install_coding_tools() {
+    if ! ask_yes_no "Install coding tools?"; then
+        echo "Skipping coding tools installation..."
+        return 1
+    fi
+    echo "Installing coding tools..."
+    brew install uv rustup fnm
+
+    # rustup is keg-only; add it to PATH for the rest of this script
+    export PATH="$(brew --prefix rustup)/bin:$PATH"
+    rustup default stable
+
+    # Make fnm-managed node available for the rest of this script
+    eval "$(fnm env)"
+}
+
 # Function to install base packages
 install_base_packages() {
     echo "Installing base packages..."
@@ -200,6 +217,7 @@ main() {
     setup_zsh
     setup_wezterm
     setup_zed
+    install_coding_tools
     setup_neovim
     echo "Setup complete! Recommended to restart shell"
 }
