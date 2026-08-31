@@ -82,7 +82,6 @@ setup_git() {
     fi
     echo "Setting up Git..."
     ln -sf "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
-    chmod 600 "$DOTFILES_DIR/git/gitconfig"
     setup_gitconfig_local
 }
 
@@ -92,7 +91,6 @@ setup_gitconfig_local() {
         echo "gitconfig.local not found."
         echo "Using example gitconfig.local file..."
         cp "$DOTFILES_DIR/git/gitconfig.local.example" "$gitconfig_local"
-        chmod 600 "$gitconfig_local"
     else
         echo "gitconfig.local already exists."
     fi
@@ -111,7 +109,6 @@ setup_ssh() {
         chmod 700 "$HOME/.ssh"
     fi
     ln -sf "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
-    chmod 600 "$DOTFILES_DIR/ssh/config"
     setup_ssh_config_local
 }
 
@@ -121,7 +118,6 @@ setup_ssh_config_local() {
         echo "ssh/config.local not found."
         echo "Using example ssh/config.local file..."
         cp "$DOTFILES_DIR/ssh/config.local.example" "$ssh_config_local"
-        chmod 600 "$ssh_config_local"
     else
         echo "ssh/config.local already exists."
     fi
@@ -150,11 +146,35 @@ setup_zed() {
     ensure_config_dir
     mkdir -p "$HOME/.config/zed"
     ln -sf "$DOTFILES_DIR/zed/settings.json" "$HOME/.config/zed/settings.json"
-    chmod 600 "$DOTFILES_DIR/zed/settings.json"
     echo "Zed settings symlinked."
     if [ -f "$DOTFILES_DIR/zed/extensions.txt" ]; then
         echo "Extensions to install (do this manually via Zed's extension manager):"
         cat "$DOTFILES_DIR/zed/extensions.txt"
+    fi
+}
+
+# Function to set up Zsh
+setup_zsh() {
+    if ! ask_yes_no "Setup Zsh?"; then
+        echo "Skipping Zsh setup..."
+        return 1
+    fi
+    echo "Setting up Zsh..."
+    brew install powerlevel10k zsh-autosuggestions zsh-syntax-highlighting
+    ln -sf "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
+    ln -sf "$DOTFILES_DIR/zsh/zshrc.mac" "$DOTFILES_DIR/zsh/zshrc.os"
+    ln -sf "$DOTFILES_DIR/zsh/p10k.zsh" "$HOME/.p10k.zsh"
+    setup_zshrc_local
+}
+
+setup_zshrc_local() {
+    local zshrc_local="$DOTFILES_DIR/zsh/zshrc.local"
+    if [ ! -f "$zshrc_local" ]; then
+        echo "zshrc.local not found."
+        echo "Using example zshrc.local file..."
+        cp "$DOTFILES_DIR/zsh/zshrc.local.example" "$zshrc_local"
+    else
+        echo "zshrc.local already exists."
     fi
 }
 
@@ -177,6 +197,7 @@ main() {
     clone_dotfiles_repo
     setup_git
     setup_ssh
+    setup_zsh
     setup_wezterm
     setup_zed
     setup_neovim

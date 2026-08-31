@@ -1,0 +1,5 @@
+# Machine-specific zsh config (not tracked in git)
+# Copy this file to zshrc.local and fill in your values
+
+# Example: API keys
+# export GEMINI_API_KEY=YOUR_KEY_HERE

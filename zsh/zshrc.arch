@@ -1,0 +1,5 @@
+# Arch Linux-specific zsh config
+# Managed via pacman
+
+export ZSH_PLUGIN_DIR="/usr/share/zsh/plugins"
+export ZSH_P10K_PATH="/usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme"
