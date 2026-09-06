@@ -19,10 +19,55 @@ ask_yes_no() {
     done
 }
 
+ensure_config_dir() {
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir "$HOME/.config"
+        chmod 700 "$HOME/.config"
+    fi
+}
+
+create_symlink() {
+    local src="$1"
+    local dest="$2"
+
+    if [ -L "$dest" ]; then
+        if [ "$(readlink "$dest")" = "$src" ]; then
+            echo "Symlink already exists and is correct: $dest"
+            return 0
+        else
+            echo "Removing incorrect symlink: $dest"
+            rm "$dest"
+        fi
+    elif [ -e "$dest" ]; then
+        local timestamp=$(date +%Y%m%d_%H%M%S)
+        echo "Backing up existing file/directory: $dest to $dest.bak.$timestamp"
+        mv "$dest" "$dest.bak.$timestamp"
+    fi
+
+    echo "Creating symlink: $dest -> $src"
+    ln -s "$src" "$dest"
+}
+
 # Function to install base packages
 install_base_packages() {
     echo "Installing base packages..."
-    sudo pacman -S --noconfirm --needed git
+    sudo pacman -S --noconfirm --needed git base-devel rustup
+    rustup default stable
+
+    if ! command -v paru >/dev/null 2>&1; then
+        echo "Installing paru..."
+        local temp_dir
+        temp_dir=$(mktemp -d)
+        (
+            cd "$temp_dir" || exit 1
+            git clone https://aur.archlinux.org/paru.git
+            cd paru
+            makepkg -si --noconfirm
+        )
+        rm -rf "$temp_dir"
+    else
+        echo "paru already installed."
+    fi
 }
 
 # Function to clone the dotfiles repository
@@ -30,32 +75,43 @@ clone_dotfiles_repo() {
     if [ ! -d "$DOTFILES_DIR" ]; then
         echo "Dotfiles repository not found. Cloning..."
         git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-        chmod 700 "$DOTFILES_DIR"
     else
         echo "Dotfiles repository already exists at $DOTFILES_DIR."
     fi
+    chmod 700 "$DOTFILES_DIR"
 }
 
-# Function to set up bash
-setup_bash() {
-    if ! ask_yes_no "Setup Bash?"; then
-        echo "Skipping Bash setup..."
+# Function to set up Zsh
+setup_zsh() {
+    if ! ask_yes_no "Setup Zsh?"; then
+        echo "Skipping Zsh setup..."
         return 1
     fi
-    echo "Setting up Bash..."
-    ln -sf "$DOTFILES_DIR/bash/bashrc" "$HOME/.bashrc"
-    chmod 600 "$HOME/.bashrc"
-    setup_bashrc_local
+    echo "Setting up Zsh..."
+
+    # Install zsh and essential plugins/theme
+    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-syntax-highlighting starship
+
+    create_symlink "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
+    create_symlink "$DOTFILES_DIR/zsh/zshrc.arch" "$DOTFILES_DIR/zsh/zshrc.os"
+
+    setup_zshrc_local
+
+    # Optional: Change default shell to zsh
+    if [ "$SHELL" != "$(which zsh)" ]; then
+        echo "Changing default shell to zsh (this may prompt for your password):"
+        chsh -s "$(which zsh)" || echo "Failed to change shell. You can run 'chsh -s \$(which zsh)' manually later."
+    fi
 }
 
-setup_bashrc_local() {
-    local bashrc_local="$DOTFILES_DIR/bash/bashrc.local"
-    if [ ! -f "$bashrc_local" ]; then
-        echo "bashrc.local not found."
-        echo "Using example bashrc.local file..."
-        cp "$DOTFILES_DIR/bash/bashrc.local.example" "$bashrc_local"
+setup_zshrc_local() {
+    local zshrc_local="$DOTFILES_DIR/zsh/zshrc.local"
+    if [ ! -f "$zshrc_local" ]; then
+        echo "zshrc.local not found."
+        echo "Using example zshrc.local file..."
+        cp "$DOTFILES_DIR/zsh/zshrc.local.example" "$zshrc_local" 2>/dev/null || true
     else
-        echo "bashrc.local already exists."
+        echo "zshrc.local already exists."
     fi
 }
 
@@ -66,8 +122,7 @@ setup_git() {
         return 1
     fi
     echo "Setting up Git..."
-    ln -sf "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
-    chmod 600 "$HOME/.gitconfig"
+    create_symlink "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
     setup_gitconfig_local
 }
 
@@ -90,8 +145,11 @@ setup_ssh() {
     fi
     echo "Setting up SSH..."
     sudo pacman -S --noconfirm --needed openssh
-    ln -sf "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
-    chmod 600 "$HOME/.ssh/config"
+    if [ ! -d "$HOME/.ssh" ]; then
+        mkdir "$HOME/.ssh"
+        chmod 700 "$HOME/.ssh"
+    fi
+    create_symlink "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
     setup_ssh_config_local
 }
 
@@ -106,21 +164,6 @@ setup_ssh_config_local() {
     fi
 }
 
-# Function to set up wezterm
-setup_wezterm() {
-    if ! ask_yes_no "Setup wezterm?"; then
-        echo "Skipping wezterm setup..."
-        return 1
-    fi
-    echo "Setting up wezterm..."
-    sudo pacman -S --noconfirm --needed wezterm ttf-meslo-nerd
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir "$HOME/.config"
-        chmod 700 "$HOME/.config"
-    fi
-    ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config"
-}
-
 # Function to set up NeoVim
 setup_neovim() {
     if ! ask_yes_no "Setup NeoVim?"; then
@@ -128,79 +171,91 @@ setup_neovim() {
         return 1
     fi
     echo "Setting up NeoVim..."
-    sudo pacman -S --noconfirm --needed neovim lazygit imagemagick make unzip fd ripgrep ast-grep gcc python gemini-cli
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir "$HOME/.config"
-        chmod 700 "$HOME/.config"
-    fi
-    ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config"
-
-    # setup node as needed by neovim
-    if ! command -v node >/dev/null 2>&1; then
-        setup_node
-    fi
-
-    # setup rust as needed by neovim
-    if ! command -v rustc >/dev/null 2>&1; then
-        setup_rust
-    fi
+    sudo pacman -S --noconfirm --needed neovim
+    ensure_config_dir
+    create_symlink "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 }
 
-setup_node() {
-    echo "Setting up node via nvm..."
-    sudo pacman -S --noconfirm --needed nvm
-    source /usr/share/nvm/init-nvm.sh
-    nvm install --lts
-    nvm alias default node
-    nvm use default
-}
-
-setup_rust() {
-    echo "Setting up rust via rustup..."
-    sudo pacman -S --noconfirm --needed rustup
-    rustup default stable
-}
-
-# FUnction to set up mcphub
-setup_mcphub() {
-    if ! ask_yes_no "Setup MCPHub?"; then
-        echo "Skipping MCPHub setup..."
+# Function to set up wezterm
+setup_wezterm() {
+    if ! ask_yes_no "Setup wezterm?"; then
+        echo "Skipping wezterm setup..."
         return 1
     fi
-    echo "Setting up MCPHub..."
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir "$HOME/.config"
-        chmod 700 "$HOME/.config"
-    fi
-    ln -sf "$DOTFILES_DIR/mcphub" "$HOME/.config"
+    echo "Setting up wezterm..."
+    sudo pacman -S --noconfirm --needed wezterm ttf-jetbrains-mono-nerd
+    ensure_config_dir
+    create_symlink "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
 }
 
-# Function to set up MangoHud
-setup_mangohud() {
-    if ! ask_yes_no "Setup MangoHud?"; then
-        echo "Skipping MangoHud setup..."
+# Function to set up Zed
+setup_zed() {
+    if ! ask_yes_no "Setup Zed?"; then
+        echo "Skipping Zed setup..."
         return 1
     fi
-    echo "Setting up MangoHud..."
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir "$HOME/.config"
-        chmod 700 "$HOME/.config"
+    echo "Setting up Zed..."
+    sudo pacman -S --noconfirm --needed zed ttf-jetbrains-mono-nerd
+    ensure_config_dir
+    mkdir -p "$HOME/.config/zed"
+    create_symlink "$DOTFILES_DIR/zed/settings.json" "$HOME/.config/zed/settings.json"
+    echo "Zed settings symlinked."
+    if [ -f "$DOTFILES_DIR/zed/extensions.txt" ]; then
+        echo "Extensions to install (do this manually via Zed's extension manager):"
+        cat "$DOTFILES_DIR/zed/extensions.txt"
     fi
-    ln -sf "$DOTFILES_DIR/MangoHud" "$HOME/.config"
 }
 
-# Function to set up clangd
-setup_clangd() {
-    if ! ask_yes_no "Setup clangd?"; then
-        echo "Skipping clangd setup..."
+# Function to set up coding tools
+setup_coding_tools() {
+    echo "Setting up coding tools..."
+    # rustup installed in base packages
+    sudo pacman -S --noconfirm --needed gcc cmake make ninja fnm uv
+
+    # Install default Node.js (LTS)
+    fnm install --lts
+    fnm default lts-latest
+
+    # Install default Python
+    uv python install --default
+}
+
+# Function to set up essential utility apps
+setup_essential_utility() {
+    if ! ask_yes_no "Setup essential utility apps?"; then
+        echo "Skipping essential utility apps setup..."
         return 1
     fi
-    echo "Setting up clangd..."
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir "$HOME/.config"
-        chmod 700 "$HOME/.config"
+    echo "Setting up essential utility apps..."
+    sudo pacman -S --noconfirm --needed bitwarden
+    paru -S --needed brave-bin
+}
+
+# Function to set up research and knowledge base apps
+setup_research_knowledge() {
+    if ! ask_yes_no "Setup research and knowledge base apps?"; then
+        echo "Skipping research and knowledge base apps setup..."
+        return 1
     fi
-    ln -sf "$DOTFILES_DIR/clangd" "$HOME/.config"
+    echo "Setting up research and knowledge base apps..."
+    sudo pacman -S --noconfirm --needed obsidian
+    paru -S --needed zotero-bin
+}
+
+# Function to set up gaming
+setup_gaming() {
+    if ! ask_yes_no "Setup gaming?"; then
+        echo "Skipping gaming setup..."
+        return 1
+    fi
+    echo "Setting up gaming..."
+
+    sudo pacman -S --noconfirm --needed steam mangohud lib32-mangohud gamemode lib32-gamemode
+
+    sudo usermod -aG gamemode "$USER"
+
+    ensure_config_dir
+    create_symlink "$DOTFILES_DIR/MangoHud" "$HOME/.config/MangoHud"
 }
 
 # Main script
@@ -208,14 +263,16 @@ main() {
     echo "Starting setup..."
     install_base_packages
     clone_dotfiles_repo
-    setup_bash
+    setup_zsh
     setup_git
     setup_ssh
-    setup_wezterm
     setup_neovim
-    setup_mcphub
-    setup_mangohud
-    setup_clangd
+    setup_wezterm
+    setup_zed
+    setup_coding_tools
+    setup_essential_utility
+    setup_research_knowledge
+    setup_gaming
     echo "Setup complete! Recommended to restart shell"
 }
 
