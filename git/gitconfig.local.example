@@ -1,5 +1,5 @@
-[user]
-    signingkey = "<YOUR_PUBLIC_KEY>"
-    email = john.doe@example.com
-    name = John Doe
-    user = john.doe
+# [user]
+#     signingkey = "<YOUR_PUBLIC_KEY>"
+#     email = john.doe@example.com
+#     name = John Doe
+#     user = john.doe
