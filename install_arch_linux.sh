@@ -90,7 +90,7 @@ setup_zsh() {
     echo "Setting up Zsh..."
 
     # Install zsh and essential plugins/theme
-    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-syntax-highlighting starship
+    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-syntax-highlighting starship zoxide
 
     create_symlink "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/zsh/zshrc.arch" "$DOTFILES_DIR/zsh/zshrc.os"

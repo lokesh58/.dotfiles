@@ -108,7 +108,7 @@ setup_zsh() {
         return 1
     fi
     echo "Setting up Zsh..."
-    brew install starship zsh-autosuggestions zsh-syntax-highlighting
+    brew install starship zsh-autosuggestions zsh-syntax-highlighting zoxide
     create_symlink "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/zsh/zshrc.mac" "$DOTFILES_DIR/zsh/zshrc.os"
     setup_zshrc_local
