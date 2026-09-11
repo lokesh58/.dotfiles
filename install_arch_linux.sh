@@ -208,6 +208,10 @@ setup_zed() {
 
 # Function to set up coding tools
 setup_coding_tools() {
+    if ! ask_yes_no "Setup coding tools?"; then
+        echo "Skipping coding tools setup..."
+        return 1
+    fi
     echo "Setting up coding tools..."
     # rustup installed in base packages
     sudo pacman -S --noconfirm --needed gcc cmake make ninja fnm uv
@@ -242,6 +246,24 @@ setup_research_knowledge() {
     paru -S --needed zotero-bin
 }
 
+# Function to set up llama.cpp server
+setup_llama_server() {
+    if ! ask_yes_no "Setup llama.cpp server?"; then
+        echo "Skipping llama.cpp server setup..."
+        return 1
+    fi
+    echo "Setting up llama.cpp server..."
+    # TODO: See if ggml-cuda can be made generic by offering a choice
+    sudo pacman -S --noconfirm --needed llama-cpp ggml-cuda
+
+    ensure_config_dir
+    mkdir -p $HOME/local-llms/gguf # folder where server will look for models
+    mkdir -p $HOME/.config/systemd/user
+    cp "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
+    systemctl --user daemon-reload
+    systemctl --user enable --now llama-server.service
+}
+
 # Function to set up gaming
 setup_gaming() {
     if ! ask_yes_no "Setup gaming?"; then
@@ -272,6 +294,7 @@ main() {
     setup_coding_tools
     setup_essential_utility
     setup_research_knowledge
+    setup_llama_server
     setup_gaming
     echo "Setup complete! Recommended to restart shell"
 }
