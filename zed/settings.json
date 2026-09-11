@@ -7,6 +7,11 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "language_models": {
+    "llama.cpp": {
+      "api_url": "http://localhost:9931"
+    }
+  },
   "agent_servers": {
     "antigravity-acp": {
       "default_config_options": {
@@ -78,6 +83,11 @@
   },
   "cli_default_open_behavior": "new_window",
   "agent": {
+    "default_model": {
+      "provider": "llama.cpp",
+      "model": "gemma-4-12b-it-qat-q4_0",
+      "enable_thinking": false
+    },
     "auto_compact": {
       "threshold": "90%"
     },
