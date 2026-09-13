@@ -9,7 +9,9 @@ ExecStart=/usr/bin/llama-server \
     --port 9931 \
     --models-dir %h/local-llms/gguf \
     --sleep-idle-seconds 300 \
-    --ubatch-size 2048
+    --batch-size 4096 \
+    --ubatch-size 2048 \
+    --flash-attn auto
 Restart=on-failure
 RestartSec=5
 SyslogIdentifier=llama-server
