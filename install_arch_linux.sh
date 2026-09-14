@@ -261,7 +261,6 @@ setup_llama_server() {
     mkdir -p $HOME/.config/systemd/user
     cp "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
     systemctl --user daemon-reload
-    systemctl --user enable --now llama-server.service
 }
 
 # Function to set up gaming
