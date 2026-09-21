@@ -214,7 +214,7 @@ setup_coding_tools() {
     fi
     echo "Setting up coding tools..."
     # rustup installed in base packages
-    sudo pacman -S --noconfirm --needed gcc cmake make ninja fnm uv
+    sudo pacman -S --noconfirm --needed gcc cmake make ninja fnm uv texlive-meta
 
     # Install default Node.js (LTS)
     fnm install --lts
@@ -222,6 +222,9 @@ setup_coding_tools() {
 
     # Install default Python
     uv python install --default
+
+    # Setup tex usermode manager
+    tlmgr init-usertree
 }
 
 # Function to set up essential utility apps
