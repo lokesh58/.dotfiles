@@ -9,7 +9,7 @@ ExecStart=/usr/bin/llama-server \
     --port 9931 \
     --models-dir %h/local-llms/gguf \
     --sleep-idle-seconds 300 \
-    --fit-ctx 16384 \
+    --fit-ctx 32768 \
     --batch-size 4096 \
     --ubatch-size 2048 \
     --flash-attn auto
