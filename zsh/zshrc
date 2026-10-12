@@ -16,6 +16,8 @@ setopt INC_APPEND_HISTORY
 # Aliases
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias sshp='ssh -o PubkeyAuthentication=no'
+alias ssht='ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 
 # OS-specific config
 if [ -f ~/.dotfiles/zsh/zshrc.os ]; then
