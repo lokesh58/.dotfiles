@@ -40,8 +40,8 @@ if command -v starship &> /dev/null; then
 fi
 
 # Rust Cargo binaries
-if [ -f "$HOME/.cargo/env" ]; then
-    source "$HOME/.cargo/env"
+if [ -d "$HOME/.cargo/bin" ] && [[ ":$PATH:" != *":$HOME/.cargo/bin:"* ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # User local binaries (uv, pipx, etc.)
