@@ -260,9 +260,12 @@ setup_llama_server() {
     sudo pacman -S --noconfirm --needed llama-cpp ggml-cuda
 
     ensure_config_dir
-    mkdir -p $HOME/local-llms/gguf # folder where server will look for models
-    mkdir -p $HOME/.config/systemd/user
-    cp "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
+    mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
+    mkdir -p "$HOME/.local/bin"
+    chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen.sh"
+    mkdir -p "$HOME/.config/systemd/user"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
     systemctl --user daemon-reload
 }
 

@@ -4,14 +4,15 @@ After=network.target
 
 [Service]
 Type=exec
+Environment="GGUF_ROOT=%h/local-llms/gguf"
+ExecStartPre=%h/.local/bin/llama-preset-gen.sh ${GGUF_ROOT} %t/llama-models.ini
 ExecStart=/usr/bin/llama-server \
     --host 127.0.0.1 \
     --port 9931 \
-    --models-dir %h/local-llms/gguf \
+    --models-dir ${GGUF_ROOT} \
+    --models-preset %t/llama-models.ini \
     --sleep-idle-seconds 300 \
     --fit-ctx 32768 \
-    --batch-size 4096 \
-    --ubatch-size 2048 \
     --flash-attn auto
 Restart=on-failure
 RestartSec=5
