@@ -26,6 +26,18 @@ ensure_config_dir() {
     fi
 }
 
+ensure_local_bin() {
+    if [ ! -d "$HOME/.local/bin" ]; then
+        mkdir -p "$HOME/.local/bin"
+    fi
+}
+
+ensure_systemd_user() {
+    if [ ! -d "$HOME/.config/systemd/user" ]; then
+        mkdir -p "$HOME/.config/systemd/user"
+    fi
+}
+
 create_symlink() {
     local src="$1"
     local dest="$2"
@@ -259,16 +271,16 @@ setup_llama_server() {
     # TODO: See if ggml-cuda can be made generic by offering a choice
     sudo pacman -S --noconfirm --needed llama-cpp ggml-cuda curl jq
 
-    ensure_config_dir
     mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
-    mkdir -p "$HOME/.local/bin"
     chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
     chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
+    ensure_local_bin
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen.sh"
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh" "$HOME/.local/bin/llama-idle-unloader.sh"
-    mkdir -p "$HOME/.config/systemd/user"
+    ensure_systemd_user
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
     systemctl --user daemon-reload
+    systemctl --user enable --now llama-server.service
 }
 
 # Function to set up gaming

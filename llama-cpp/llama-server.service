@@ -12,7 +12,7 @@ ExecStart=/usr/bin/llama-server \
     --models-dir ${GGUF_ROOT} \
     --models-preset %t/llama-models.ini \
     --sleep-idle-seconds 300 \
-    --fit-ctx 32768 \
+    --fit-ctx 65536 \
     --flash-attn auto
 ExecStartPost=-/bin/sh -c 'exec %h/.local/bin/llama-idle-unloader.sh http://127.0.0.1:9931 &'
 Restart=on-failure
