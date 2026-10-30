@@ -257,13 +257,15 @@ setup_llama_server() {
     fi
     echo "Setting up llama.cpp server..."
     # TODO: See if ggml-cuda can be made generic by offering a choice
-    sudo pacman -S --noconfirm --needed llama-cpp ggml-cuda
+    sudo pacman -S --noconfirm --needed llama-cpp ggml-cuda curl jq
 
     ensure_config_dir
     mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
     mkdir -p "$HOME/.local/bin"
     chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
+    chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen.sh"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh" "$HOME/.local/bin/llama-idle-unloader.sh"
     mkdir -p "$HOME/.config/systemd/user"
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
     systemctl --user daemon-reload
