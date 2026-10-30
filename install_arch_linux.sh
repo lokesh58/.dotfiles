@@ -239,6 +239,20 @@ setup_coding_tools() {
     tlmgr init-usertree
 }
 
+# Function to set up opencode
+setup_opencode() {
+    if ! ask_yes_no "Setup opencode?"; then
+        echo "Skipping opencode setup..."
+        return 1
+    fi
+    echo "Setting up opencode..."
+    sudo pacman -S --noconfirm --needed opencode
+
+    ensure_config_dir
+    create_symlink "$DOTFILES_DIR/opencode/config.json" "$HOME/.config/opencode/opencode.json"
+    create_symlink "$DOTFILES_DIR/opencode/plugins" "$HOME/.config/opencode/plugins"
+}
+
 # Function to set up essential utility apps
 setup_essential_utility() {
     if ! ask_yes_no "Setup essential utility apps?"; then
@@ -311,6 +325,7 @@ main() {
     setup_wezterm
     setup_zed
     setup_coding_tools
+    setup_opencode
     setup_essential_utility
     setup_research_knowledge
     setup_llama_server

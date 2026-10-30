@@ -1,0 +1,4 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "llama.cpp/gpt-oss-20b-q4_k_m"
+}
