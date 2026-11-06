@@ -10,39 +10,40 @@
   "diff_view_style": "unified",
   "language_models": {
     "llama.cpp": {
-      "api_url": "http://localhost:9931"
-    }
+      "api_url": "http://localhost:9931",
+    },
   },
   "agent_servers": {
-    "antigravity-acp": {
+    "opencode": {
       "default_config_options": {
-        "model": "gemini-3.1-pro-low"
+        "mode": "build",
+        "model": "opencode/big-pickle",
       },
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "soft_wrap": "editor_width",
   "proxy": "",
   "edit_predictions": {
-    "mode": "subtle"
+    "mode": "subtle",
   },
   "tabs": {
     "show_diagnostics": "all",
     "file_icons": true,
-    "git_status": true
+    "git_status": true,
   },
   "title_bar": {
     "show_menus": false,
-    "show_branch_status_icon": true
+    "show_branch_status_icon": true,
   },
   "status_bar": {
     "show_active_file": false,
     "line_endings_button": true,
-    "active_encoding_button": "enabled"
+    "active_encoding_button": "enabled",
   },
   "search": {
     "center_on_match": true,
-    "include_ignored": true
+    "include_ignored": true,
   },
   "use_smartcase_search": true,
   "show_whitespaces": "all",
@@ -50,14 +51,14 @@
   "vim": {
     "use_smartcase_find": true,
     "use_system_clipboard": "never",
-    "toggle_relative_line_numbers": true
+    "toggle_relative_line_numbers": true,
   },
   "toolbar": {
-    "code_actions": true
+    "code_actions": true,
   },
   "auto_signature_help": true,
   "sticky_scroll": {
-    "enabled": true
+    "enabled": true,
   },
   "redact_private_values": true,
   "ui_font_family": "JetBrainsMono Nerd Font",
@@ -65,45 +66,47 @@
   "icon_theme": {
     "mode": "system",
     "light": "Catppuccin Latte",
-    "dark": "Catppuccin Mocha"
+    "dark": "Catppuccin Mocha",
   },
   "project_panel": {
     "diagnostic_badges": true,
     "git_status_indicator": true,
     "bold_folder_labels": false,
-    "dock": "left"
+    "dock": "left",
   },
   "outline_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "collaboration_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "cli_default_open_behavior": "new_window",
   "agent": {
+    "threads_sidebar": {
+      "position": "right"
+    },
     "default_model": {
       "provider": "llama.cpp",
-      "model": "gemma-4-12b-it-qat-q4_0",
-      "enable_thinking": false
+      "model": "ornith-1.5-35b-a3b-q4_k_m",
+      "enable_thinking": false,
     },
     "auto_compact": {
-      "threshold": "90%"
+      "threshold": "90%",
     },
     "use_modifier_to_send": true,
     "play_sound_when_agent_done": "always",
-    "sidebar_side": "right",
     "dock": "right",
     "favorite_models": [],
     "default_profile": "write",
-    "model_parameters": []
+    "model_parameters": [],
   },
   "telemetry": {
     "diagnostics": true,
     "metrics": false,
-    "anthropic_retention": false
+    "anthropic_retention": false,
   },
   "base_keymap": "VSCode",
   "ui_font_size": 16,
