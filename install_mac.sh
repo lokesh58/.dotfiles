@@ -26,6 +26,50 @@ ensure_config_dir() {
     fi
 }
 
+ensure_local_bin() {
+    if [ ! -d "$HOME/.local/bin" ]; then
+        mkdir -p "$HOME/.local/bin"
+    fi
+}
+
+ensure_launch_agents() {
+    mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs"
+}
+
+render_template() {
+    local src="$1"
+    local dest="$2"
+    shift 2
+
+    if [ ! -f "$src" ]; then
+        echo "render_template: template not found: $src" >&2
+        return 1
+    fi
+    if [ "$#" -eq 0 ]; then
+        echo "render_template: no placeholders given" >&2
+        return 1
+    fi
+
+    local replacements=()
+    local pair key value escaped_value
+    for pair in "$@"; do
+        key="${pair%%=*}"
+        value="${pair#*=}"
+
+        if [ "$key" = "$pair" ] || [ -z "$key" ]; then
+            echo "render_template: invalid placeholder '$pair' (expected KEY=VALUE)" >&2
+            return 1
+        fi
+
+        # escape sed replacement-side specials (delimiter, &, backslash)
+        escaped_value=$(printf '%s' "$value" | sed 's/[&|\\]/\\&/g')
+        replacements+=(-e "s|$key|$escaped_value|g")
+    done
+
+    mkdir -p "$(dirname "$dest")"
+    sed "${replacements[@]}" "$src" > "$dest"
+}
+
 create_symlink() {
     local src="$1"
     local dest="$2"
@@ -281,14 +325,29 @@ setup_llama_server() {
         echo "Skipping llama.cpp server setup..."
         return 1
     fi
-    echo "Not implemented yet!"
-    # TODO
-    # echo "Setting up llama.cpp server..."
-    # brew install llama.cpp jq
+    echo "Setting up llama.cpp server..."
+    brew install llama.cpp jq
 
-    # mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
-    # chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
-    # chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
+    mkdir -p "$HOME/local-llms/gguf" "$HOME/.cache/llama"
+
+    chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
+    chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
+    chmod +x "$DOTFILES_DIR/llama-cpp/run-llama-server.sh"
+
+    ensure_local_bin
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh" "$HOME/.local/bin/llama-idle-unloader"
+    create_symlink "$DOTFILES_DIR/llama-cpp/run-llama-server.sh" "$HOME/.local/bin/run-llama-server"
+
+    ensure_launch_agents
+    local plist="$HOME/Library/LaunchAgents/com.huakesh.llama-server.plist"
+    render_template "$DOTFILES_DIR/llama-cpp/llama-server.plist.template" "$plist" "__HOME__=$HOME" || return 1
+    plutil -lint "$plist" >/dev/null || return 1
+
+    # re-runnable: unload any previous copy, then load the new config
+    launchctl bootout "gui/$(id -u)/com.huakesh.llama-server" 2>/dev/null || true
+    launchctl enable  "gui/$(id -u)/com.huakesh.llama-server"
+    launchctl bootstrap "gui/$(id -u)" "$plist" || return 1
 }
 
 # Function to set up gaming

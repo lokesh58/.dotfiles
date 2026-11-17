@@ -13,6 +13,6 @@ for preset in "$GGUF_DIR"/*/preset.ini; do
   model_name=$(basename "$(dirname "$preset")")
   echo "[$model_name]" >> "$MERGED_INI"
   # Copy all lines except accidental [section] headers
-  grep -v '^\s*\[' "$preset" >> "$MERGED_INI" || true
+  grep -v '^[[:space:]]*\[' "$preset" >> "$MERGED_INI" || true
   echo "" >> "$MERGED_INI"
 done
