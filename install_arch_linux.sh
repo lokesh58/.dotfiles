@@ -289,13 +289,16 @@ setup_llama_server() {
     mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
     chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
     chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
+    chmod +x "$DOTFILES_DIR/llama-cpp/run-llama-server.sh"
     ensure_local_bin
-    create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen.sh"
-    create_symlink "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh" "$HOME/.local/bin/llama-idle-unloader.sh"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh" "$HOME/.local/bin/llama-preset-gen"
+    create_symlink "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh" "$HOME/.local/bin/llama-idle-unloader"
+    create_symlink "$DOTFILES_DIR/llama-cpp/run-llama-server.sh" "$HOME/.local/bin/run-llama-server"
     ensure_systemd_user
     create_symlink "$DOTFILES_DIR/llama-cpp/llama-server.service" "$HOME/.config/systemd/user/llama-server.service"
     systemctl --user daemon-reload
-    systemctl --user enable --now llama-server.service
+    systemctl --user enable llama-server.service
+    systemctl --user restart llama-server.service
 }
 
 # Function to set up gaming

@@ -1,20 +1,13 @@
 [Unit]
 Description=llama.cpp Server
 After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
 [Service]
 Type=exec
-Environment="GGUF_ROOT=%h/local-llms/gguf"
-ExecStartPre=%h/.local/bin/llama-preset-gen.sh ${GGUF_ROOT} %t/llama-models.ini
-ExecStart=/usr/bin/llama-server \
-    --host 127.0.0.1 \
-    --port 9931 \
-    --models-dir ${GGUF_ROOT} \
-    --models-preset %t/llama-models.ini \
-    --sleep-idle-seconds 300 \
-    --fit-ctx 131072 \
-    --flash-attn auto
-ExecStartPost=-/bin/sh -c 'exec %h/.local/bin/llama-idle-unloader.sh http://127.0.0.1:9931 &'
+Environment="PATH=%h/.local/bin:/usr/bin:/bin:/usr/local/bin"
+ExecStart=%h/.local/bin/run-llama-server %h/local-llms/gguf %t/llama-models.ini
 Restart=on-failure
 RestartSec=5
 SyslogIdentifier=llama-server

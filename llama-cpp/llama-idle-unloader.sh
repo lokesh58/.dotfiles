@@ -3,13 +3,10 @@ set -euo pipefail
 
 SERVER_URL="${1:-http://127.0.0.1:9931}"
 
-# Exit immediately when systemd stops the service CGroup
-trap 'kill $(jobs -p) 2>/dev/null || true; exit 0' TERM INT HUP
-
 unload_model() {
     local model="$1"
     [ -n "$model" ] || return 0
-    echo "Idle timeout reached for '$model' (entered sleeping state). Unloading to release CUDA context..."
+    echo "Idle timeout reached for '$model' (entered sleeping state). Unloading to release held up memory..."
     curl -fsS -X POST "$SERVER_URL/models/unload" \
         -H "Content-Type: application/json" \
         -d "{\"model\": \"$model\"}" >/dev/null || true
