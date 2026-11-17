@@ -95,10 +95,10 @@ clone_dotfiles_repo() {
     if [ ! -d "$DOTFILES_DIR" ]; then
         echo "Dotfiles repository not found. Cloning..."
         git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-        chmod 700 "$DOTFILES_DIR"
     else
         echo "Dotfiles repository already exists at $DOTFILES_DIR."
     fi
+    chmod 700 "$DOTFILES_DIR"
 }
 
 # Function to set up Zsh
@@ -192,7 +192,7 @@ setup_wezterm() {
         return 1
     fi
     echo "Setting up wezterm..."
-    brew install --cask wezterm font-jetbrains-mono-nerd-font
+    brew install --cask wezterm font-jetbrains-mono-nerd-font font-fira-code-nerd-font
     ensure_config_dir
     create_symlink "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
 }
@@ -224,6 +224,7 @@ setup_coding_tools() {
     echo "Installing coding tools..."
     # gcc and make installed from xcode-clt
     brew install cmake ninja fnm rustup uv
+    brew install --cask mactex-no-gui
 
     # Install default Node.js (LTS)
     fnm install --lts
@@ -237,6 +238,21 @@ setup_coding_tools() {
     uv python install --default
 }
 
+# Function to set up opencode
+setup_opencode() {
+    if ! ask_yes_no "Setup opencode?"; then
+        echo "Skipping opencode setup..."
+        return 1
+    fi
+    echo "Setting up opencode..."
+    brew install opencode
+
+    ensure_config_dir
+    mkdir -p "$HOME/.config/opencode"
+    create_symlink "$DOTFILES_DIR/opencode/config.json" "$HOME/.config/opencode/opencode.json"
+    create_symlink "$DOTFILES_DIR/opencode/plugins" "$HOME/.config/opencode/plugins"
+}
+
 # Function to set up essential utility apps
 setup_essential_utility() {
     if ! ask_yes_no "Setup essential utility apps?"; then
@@ -244,7 +260,7 @@ setup_essential_utility() {
         return 1
     fi
     echo "Setting up essential utility apps..."
-    brew install brave-browser
+    brew install --cask brave-browser
     mas install 1352778147 # Bitwarden
 }
 
@@ -255,8 +271,34 @@ setup_research_knowledge() {
         return 1
     fi
     echo "Setting up research and knowledge base apps..."
-    brew install obsidian zotero
+    brew install --cask obsidian zotero
     mas install 360593530 # Notability
+}
+
+# Function to set up llama.cpp server
+setup_llama_server() {
+    if ! ask_yes_no "Setup llama.cpp server?"; then
+        echo "Skipping llama.cpp server setup..."
+        return 1
+    fi
+    echo "Not implemented yet!"
+    # TODO
+    # echo "Setting up llama.cpp server..."
+    # brew install llama.cpp jq
+
+    # mkdir -p "$HOME/local-llms/gguf" # folder where server will look for models
+    # chmod +x "$DOTFILES_DIR/llama-cpp/llama-preset-gen.sh"
+    # chmod +x "$DOTFILES_DIR/llama-cpp/llama-idle-unloader.sh"
+}
+
+# Function to set up gaming
+setup_gaming() {
+    if ! ask_yes_no "Setup gaming?"; then
+        echo "Skipping gaming setup..."
+        return 1
+    fi
+    echo "Setting up gaming..."
+    brew install --cask steam
 }
 
 # Main script
@@ -271,8 +313,11 @@ main() {
     setup_wezterm
     setup_zed
     setup_coding_tools
+    setup_opencode
     setup_essential_utility
     setup_research_knowledge
+    setup_llama_server
+    setup_gaming
     echo "Setup complete! Recommended to restart shell"
 }
 
