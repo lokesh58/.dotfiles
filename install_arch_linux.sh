@@ -249,7 +249,7 @@ setup_opencode() {
     sudo pacman -S --noconfirm --needed opencode
 
     ensure_config_dir
-    mkdir -p $HOME/.config/opencode
+    mkdir -p "$HOME/.config/opencode"
     create_symlink "$DOTFILES_DIR/opencode/config.json" "$HOME/.config/opencode/opencode.json"
     create_symlink "$DOTFILES_DIR/opencode/plugins" "$HOME/.config/opencode/plugins"
 }
