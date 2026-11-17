@@ -102,7 +102,7 @@ setup_zsh() {
     echo "Setting up Zsh..."
 
     # Install zsh and essential plugins/theme
-    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-syntax-highlighting starship zoxide ttf-firacode-nerd
+    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-syntax-highlighting starship zoxide
 
     create_symlink "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/zsh/zshrc.arch" "$DOTFILES_DIR/zsh/zshrc.os"
@@ -195,7 +195,7 @@ setup_wezterm() {
         return 1
     fi
     echo "Setting up wezterm..."
-    sudo pacman -S --noconfirm --needed wezterm ttf-jetbrains-mono-nerd
+    sudo pacman -S --noconfirm --needed wezterm ttf-jetbrains-mono-nerd ttf-firacode-nerd
     ensure_config_dir
     create_symlink "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
 }
@@ -249,6 +249,7 @@ setup_opencode() {
     sudo pacman -S --noconfirm --needed opencode
 
     ensure_config_dir
+    mkdir -p $HOME/.config/opencode
     create_symlink "$DOTFILES_DIR/opencode/config.json" "$HOME/.config/opencode/opencode.json"
     create_symlink "$DOTFILES_DIR/opencode/plugins" "$HOME/.config/opencode/plugins"
 }
