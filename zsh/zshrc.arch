@@ -4,4 +4,6 @@
 export ZSH_PLUGIN_DIR="/usr/share/zsh/plugins"
 
 # Bitwarden SSH agent
-export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+if [[ -z "$SSH_CONNECTION" ]]; then
+    export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+fi

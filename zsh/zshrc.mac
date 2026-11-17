@@ -4,7 +4,9 @@
 export ZSH_PLUGIN_DIR="$(brew --prefix)/share"
 
 # Bitwarden SSH agent
-export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+if [[ -z "$SSH_CONNECTION" ]]; then
+    export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+fi
 
 # Rust (rustup via Homebrew — keg-only, must add to PATH explicitly)
 export PATH="$(brew --prefix rustup)/bin:$PATH"
